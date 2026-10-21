@@ -1,0 +1,7 @@
+# npm
+**/node_modules/
+
+# VSCode
+**/.vscode/
+**/*.code-workspace
+!google-ai-mode-dom-keeper.code-workspace
