@@ -6,7 +6,96 @@
   ],
   "settings": {
     "files.exclude": {
-      "**/node_modules/": true
-    }
+      "**/node_modules/": true,
+      "*/**/*.code-workspace": true,
+      "[!g]*.code-workspace": true,
+      "g[!o]*.code-workspace": true,
+      "go[!o]*.code-workspace": true,
+      "goo[!g]*.code-workspace": true,
+      "goog[!l]*.code-workspace": true,
+      "googl[!e]*.code-workspace": true,
+      "google[!-]*.code-workspace": true,
+      "google-[!a]*.code-workspace": true,
+      "google-a[!i]*.code-workspace": true,
+      "google-ai[!-]*.code-workspace": true,
+      "google-ai-[!m]*.code-workspace": true,
+      "google-ai-m[!o]*.code-workspace": true,
+      "google-ai-mo[!d]*.code-workspace": true,
+      "google-ai-mod[!e]*.code-workspace": true,
+      "google-ai-mode[!-]*.code-workspace": true,
+      "google-ai-mode-[!d]*.code-workspace": true,
+      "google-ai-mode-d[!o]*.code-workspace": true,
+      "google-ai-mode-do[!m]*.code-workspace": true,
+      "google-ai-mode-dom[!-]*.code-workspace": true,
+      "google-ai-mode-dom-[!k]*.code-workspace": true,
+      "google-ai-mode-dom-k[!e]*.code-workspace": true,
+      "google-ai-mode-dom-ke[!e]*.code-workspace": true,
+      "google-ai-mode-dom-kee[!p]*.code-workspace": true,
+      "google-ai-mode-dom-keep[!e]*.code-workspace": true,
+      "google-ai-mode-dom-keepe[!r]*.code-workspace": true,
+      "google-ai-mode-dom-keeper[!.]*.code-workspace": true,
+      "google-ai-mode-dom-keeper.*?*.code-workspace": true,
+      "google-ai-mode-dom-keeper..code-workspace": true
+    },
+    "[javascript]": {
+      "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+    },
+    "[javascriptreact]": {
+      "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+    },
+    "[typescript]": {
+      "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+    },
+    "[typescriptreact]": {
+      "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+    },
+    "[json]": {
+      "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+    },
+    "[jsonc]": {
+      "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+    },
+    "[json-workspace]": {
+      "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+    },
+    "[yaml]": {
+      "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+    },
+    "[yml]": {
+      "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+    },
+    "files.associations": {
+      "*.code-workspace": "jsonc"
+    },
+    "eslint.format.enable": true,
+    "js/ts.format.enable": false,
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": "always"
+    },
+    "eslint.validate": [
+      "javascript",
+      "javascriptreact",
+      "typescript",
+      "typescriptreact",
+      "json",
+      "jsonc",
+      "json-workspace",
+      "yaml",
+      "yml"
+    ],
+    "eslint.useFlatConfig": true,
+    "eslint.nodePath": "node_modules",
+    "eslint.workingDirectories": [
+      {
+        "mode": "auto"
+      }
+    ]
+  },
+  "extensions": {
+    "recommendations": [
+      "dbaeumer.vscode-eslint",
+      "editorconfig.editorconfig"
+    ]
   }
 }
