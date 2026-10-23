@@ -5,3 +5,6 @@
 **/.vscode/
 **/*.code-workspace
 !google-ai-mode-dom-keeper.code-workspace
+
+# Build
+**/dist/

@@ -7,6 +7,7 @@
   "settings": {
     "files.exclude": {
       "**/node_modules/": true,
+      "**/dist/": true,
       "*/**/*.code-workspace": true,
       "[!g]*.code-workspace": true,
       "g[!o]*.code-workspace": true,
