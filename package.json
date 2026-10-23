@@ -1,0 +1,37 @@
+{
+  "name": "google-ai-mode-dom-keeper",
+  "private": true,
+  "type": "module",
+  "main": "google-ai-mode-dom-keeper/src/index.js",
+  "engines": {
+    "node": ">=20.19.0"
+  },
+  "workspaces": [
+    "google-ai-mode-dom-keeper"
+  ],
+  "scripts": {
+    "editorconfig": "editorconfig-checker",
+    "lint": "eslint . && editorconfig-checker",
+    "lint:fix": "eslint . --fix",
+    "tests": "vitest run",
+    "tests:watch": "vitest",
+    "build": "node google-ai-mode-dom-keeper/build.js"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@eslint/json": "^2.0.1",
+    "@stylistic/eslint-plugin": "^5.10.0",
+    "editorconfig-checker": "^6.1.1",
+    "esbuild": "^0.28.2",
+    "eslint": "^10.7.0",
+    "eslint-plugin-jsonc": "^3.3.0",
+    "eslint-plugin-yml": "^3.6.0",
+    "esmock": "^2.7.6",
+    "globals": "^17.7.0",
+    "shx": "^0.3.4",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.64.0",
+    "vitest": "^4.1.10",
+    "yaml-eslint-parser": "^2.1.0"
+  }
+}
