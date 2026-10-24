@@ -9,10 +9,11 @@ export interface FileTestHelper {
    * Asynchronously attempts to read a 24-byte binary metadata chunk from the beginning of a file.
    *
    * @param path - The absolute or relative system disk location pointer to extract metadata from.
+   * @param readFull - An optional configuration flag indicating whether to extract the complete file payload instead of the initial 24-byte fragment.
    *
    * @returns A promise resolving to a 24-byte allocated data Buffer snapshot if successful; otherwise, `null`.
    */
-  tryReadMetadataAsync(path: string): Promise<Buffer<ArrayBuffer> | null>;
+  tryReadMetadataAsync(path: string, reedFull?: boolean): Promise<Buffer<ArrayBuffer> | null>;
 
   /**
    * Asserts that a deferred file metadata operation resolves successfully to a valid data payload.

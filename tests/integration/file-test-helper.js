@@ -47,15 +47,26 @@ export default fileTestHelper;
  * and yields a fallback empty state instead of crashing the process thread.
  *
  * @param {string} path - The absolute or relative system disk location pointer to extract metadata from.
+ * @param {boolean} [readFull=false] - An optional configuration flag indicating whether to extract the complete file payload instead of the initial 24-byte fragment.
  *
  * @returns {Promise<Buffer<ArrayBuffer> | null>} A promise resolving to a 24-byte allocated data Buffer snapshot if successful; otherwise, `null`.
  */
-async function tryReadMetadataAsync(path) {
+async function tryReadMetadataAsync(path, readFull = false) {
   try {
     const handle = await open(path, 'r');
-    const buffer = Buffer.alloc(24);
 
-    await handle.read(buffer, 0, 24, 0);
+    /** @type {Buffer<ArrayBuffer>} */
+    let buffer;
+
+    if (readFull) {
+      buffer = await handle.readFile();
+    }
+    else {
+      buffer = Buffer.alloc(24);
+
+      await handle.read(buffer, 0, 24, 0);
+    }
+
     await handle.close();
 
     return buffer;
