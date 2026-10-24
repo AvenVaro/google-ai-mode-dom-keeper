@@ -21,6 +21,7 @@ const rootDirectoryPath = path.resolve(path.dirname(fileURLToPath(import.meta.ur
 const fileTestHelper = Object.freeze({
   rootDirectoryPath: rootDirectoryPath,
   tryReadFileAsync: tryReadFileAsync,
+  tryReadJsonFileAsync: tryReadJsonFileAsync,
   tryReadMetadataAsync: tryReadMetadataAsync,
   testIsExistsAsync: testIsExistsAsync,
   testIsPngAsync: testIsPngAsync,
@@ -90,6 +91,36 @@ async function tryReadFileAsync(path) {
     await handle.close();
 
     return buffer;
+  }
+  catch(e) {
+    console.error(e);
+
+    return null;
+  }
+}
+
+/**
+ * @private
+ * @async
+ *
+ * Asynchronously attempts to read and parse the entire contents of a file as JSON.
+ *
+ * This asset parsing utility opens a file handle in a strict read-only mode, extracts its full binary stream payload, and ensures proper resource sanitation by securely closing the active handle
+ * afterward. It decodes the resulting buffer into a standardized UTF-8 string string slice and compiles it into a structured JavaScript object. If any disk errors, missing file conditions, or structural
+ * JSON validation faults occur, it intercepts the failure internally, logs the error stack trace to the console, and yields a fallback empty state instead of breaking the execution thread.
+ *
+ * @param {string} path - The absolute or relative file-system path to the targeted JSON configuration asset.
+ *
+ * @returns {Promise<any | null>} A promise resolving to the fully parsed JavaScript object structure if successful; otherwise, `null`.
+ */
+async function tryReadJsonFileAsync(path) {
+  try {
+    const handle = await open(path, 'r');
+    const buffer = await handle.readFile();
+
+    await handle.close();
+
+    return JSON.parse(buffer.toString('utf8'));
   }
   catch(e) {
     console.error(e);
