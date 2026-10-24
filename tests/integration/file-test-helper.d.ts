@@ -2,6 +2,18 @@
  * Provides an immutable, freeze-wrapped interface controlling asynchronous file-system metadata extraction and binary validation routines.
  */
 export interface FileTestHelper {
+  /** The file name of the 16x16 pixel icon asset used as the extension's favicon, context menu image, or basic toolbar icon placeholder. */
+  readonly icon16FileName: string;
+
+  /** The file name of the 32x32 pixel icon asset used during toolbar rendering, tab stripes navigation, or high-density screen display sweeps. */
+  readonly icon32FileName: string;
+
+  /** The file name of the 48x48 pixel icon asset displayed on the active browser extensions management dashboard page (`chrome://extensions`). */
+  readonly icon48FileName: string;
+
+  /** The file name of the 128x128 pixel icon asset utilized by the Chrome Web Store directory display card and during deployment installation prompts. */
+  readonly icon128FileName: string;
+
   /** The absolute system disk path pointing directly to the root directory of the project workspace. */
   readonly rootDirectoryPath: string;
 

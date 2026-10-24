@@ -15,10 +15,19 @@ import { fileURLToPath } from 'url';
 // Constants
 //================================
 
+const icon16FileName = 'icon-google-ai-mode-dom-keeper-16x16.png';
+const icon32FileName = 'icon-google-ai-mode-dom-keeper-32x32.png';
+const icon48FileName = 'icon-google-ai-mode-dom-keeper-48x48.png';
+const icon128FileName = 'icon-google-ai-mode-dom-keeper-128x128.png';
+
 const rootDirectoryPath = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 
 /** @type {FileTestHelper} */
 const fileTestHelper = Object.freeze({
+  icon16FileName: icon16FileName,
+  icon32FileName: icon32FileName,
+  icon48FileName: icon48FileName,
+  icon128FileName: icon128FileName,
   rootDirectoryPath: rootDirectoryPath,
   tryReadFileAsync: tryReadFileAsync,
   tryReadJsonFileAsync: tryReadJsonFileAsync,

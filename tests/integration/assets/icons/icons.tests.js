@@ -9,27 +9,22 @@ import fileTestHelper from '../../file-test-helper.js';
 vitest.describe.concurrent('Assets. Icons - Integration Testing', describe);
 
 function describe() {
-  const icon16FileName = 'icon-google-ai-mode-dom-keeper-16x16.png';
-  const icon32FileName = 'icon-google-ai-mode-dom-keeper-32x32.png';
-  const icon48FileName = 'icon-google-ai-mode-dom-keeper-48x48.png';
-  const icon128FileName = 'icon-google-ai-mode-dom-keeper-128x128.png';
-
   const iconsDirectoryPath = path.resolve(fileTestHelper.rootDirectoryPath, 'assets/icons');
 
-  const icon16FilePath = path.resolve(iconsDirectoryPath, icon16FileName);
-  const icon32FilePath = path.resolve(iconsDirectoryPath, icon32FileName);
-  const icon48FilePath = path.resolve(iconsDirectoryPath, icon48FileName);
-  const icon128FilePath = path.resolve(iconsDirectoryPath, icon128FileName);
+  const icon16FilePath = path.resolve(iconsDirectoryPath, fileTestHelper.icon16FileName);
+  const icon32FilePath = path.resolve(iconsDirectoryPath, fileTestHelper.icon32FileName);
+  const icon48FilePath = path.resolve(iconsDirectoryPath, fileTestHelper.icon48FileName);
+  const icon128FilePath = path.resolve(iconsDirectoryPath, fileTestHelper.icon128FileName);
 
   const icon16MetadataPromise = fileTestHelper.tryReadMetadataAsync(icon16FilePath);
   const icon32MetadataPromise = fileTestHelper.tryReadMetadataAsync(icon32FilePath);
   const icon48MetadataPromise = fileTestHelper.tryReadMetadataAsync(icon48FilePath);
   const icon128MetadataPromise = fileTestHelper.tryReadMetadataAsync(icon128FilePath);
 
-  vitest.it.concurrent('Icon 16. Icon is exists', async () => await fileTestHelper.testIsExistsAsync(icon16MetadataPromise, icon16FileName, icon16FilePath));
-  vitest.it.concurrent('Icon 32. Icon is exists', async () => await fileTestHelper.testIsExistsAsync(icon32MetadataPromise, icon32FileName, icon32FilePath));
-  vitest.it.concurrent('Icon 48. Icon is exists', async () => await fileTestHelper.testIsExistsAsync(icon48MetadataPromise, icon48FileName, icon48FilePath));
-  vitest.it.concurrent('Icon 128. Icon is exists', async () => await fileTestHelper.testIsExistsAsync(icon128MetadataPromise, icon128FileName, icon128FilePath));
+  vitest.it.concurrent('Icon 16. Icon is exists', async () => await fileTestHelper.testIsExistsAsync(icon16MetadataPromise, fileTestHelper.icon16FileName, icon16FilePath));
+  vitest.it.concurrent('Icon 32. Icon is exists', async () => await fileTestHelper.testIsExistsAsync(icon32MetadataPromise, fileTestHelper.icon32FileName, icon32FilePath));
+  vitest.it.concurrent('Icon 48. Icon is exists', async () => await fileTestHelper.testIsExistsAsync(icon48MetadataPromise, fileTestHelper.icon48FileName, icon48FilePath));
+  vitest.it.concurrent('Icon 128. Icon is exists', async () => await fileTestHelper.testIsExistsAsync(icon128MetadataPromise, fileTestHelper.icon128FileName, icon128FilePath));
 
   vitest.it.concurrent('Icon 16. Icon is PNG', async () => await fileTestHelper.testIsPngAsync(icon16MetadataPromise));
   vitest.it.concurrent('Icon 32. Icon is PNG', async () => await fileTestHelper.testIsPngAsync(icon32MetadataPromise));
