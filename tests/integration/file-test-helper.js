@@ -102,19 +102,39 @@ async function tryReadFileAsync(path) {
  * @private
  * @async
  *
- * Asserts that a deferred file metadata operation resolves successfully to a valid data payload.
+ * Asynchronously awaits a deferred metadata operation and passes the resolved payload for existence verification.
  *
- * This asynchronous test utility acts as a promise resolution validator within the asset suite. It awaits the completion of the provided metadata operation and leverages Vitest to strictly
- * verify that the resulting outcome is populated (not null), confirming that the target asset was successfully found and scanned by the file engine.
+ * This test runner utility unwraps a pending metadata promise pass and forwards the underlying binary buffer, alongside descriptive file identifiers, down to the synchronous assertion engine to execute disk presence
+ * validations across macro-task ticks.
  *
- * @param {Promise<Buffer<ArrayBuffer> | null>} metadataPromise - A promise representing the pending file metadata scan operation.
+ * @param {Promise<Buffer<ArrayBuffer> | null>} metadataPromise - A promise representing the pending asynchronous file metadata extraction sweep.
+ * @param {string} fileName - The human-readable file identifier name used to populate descriptive error outputs on failure.
+ * @param {string} filePath - The system absolute or relative disk location pointer under evaluation.
  *
- * @returns {Promise<void>} A promise that resolves once the Vitest validation assertion is complete.
+ * @returns {Promise<void>} A promise that resolves once the downstream validation assertion is complete.
  */
-async function testIsExistsAsync(metadataPromise) {
+async function testIsExistsAsync(metadataPromise, fileName, filePath) {
   const metadata = await metadataPromise;
 
-  vitest.expect(metadata).not.toBeNull();
+  testIsExists(metadata, fileName, filePath);
+}
+
+/**
+ * @private
+ *
+ * Asserts that a file metadata snapshot is populated, injecting custom path debugging outputs on failure.
+ *
+ * This structural validation utility evaluates the presence of extracted file metadata. It leverages Vitest to strictly assert that the provided snapshot is not null, feeding a formatted error blueprint
+ * string into the matcher block to instantly surface the missing filename and raw file-system location if the asset check falls short.
+ *
+ * @param {Buffer<ArrayBuffer> | null} metadata - The extracted binary file metadata snapshot buffer pool under validation, or null if the file was inaccessible.
+ * @param {string} fileName - The human-readable file identifier name used to populate descriptive error outputs on failure.
+ * @param {string} filePath - The system absolute or relative disk location pointer under evaluation.
+ *
+ * @returns {void}
+ */
+function testIsExists(metadata, fileName, filePath) {
+  vitest.expect(metadata, `File '${fileName}' not found.\nPath: '${filePath}'`).not.toBeNull();
 }
 
 /**

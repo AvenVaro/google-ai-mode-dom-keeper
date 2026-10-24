@@ -28,13 +28,24 @@ export interface FileTestHelper {
   tryReadMetadataAsync(path: string): Promise<Buffer<ArrayBuffer> | null>;
 
   /**
-   * Asserts that a deferred file metadata operation resolves successfully to a valid data payload.
+   * Asynchronously awaits a deferred metadata operation and passes the resolved payload for existence verification.
    *
-   * @param metadataPromise - A promise representing the pending file metadata scan operation.
+   * @param metadataPromise - A promise representing the pending asynchronous file metadata extraction sweep.
+   * @param fileName - The human-readable file identifier name used to populate descriptive error outputs on failure.
+   * @param filePath - The system absolute or relative disk location pointer under evaluation.
    *
-   * @returns A promise that resolves once the Vitest validation assertion is complete.
+   * @returns A promise that resolves once the downstream validation assertion is complete.
    */
-  testIsExistsAsync(metadataPromise: Promise<Buffer<ArrayBuffer> | null>): Promise<void>;
+  testIsExistsAsync(metadataPromise: Promise<Buffer<ArrayBuffer> | null>, fileName: string, filePath: string): Promise<void>;
+
+  /**
+   * Asserts that a file metadata snapshot is populated, injecting custom path debugging outputs on failure.
+   *
+   * @param metadata - The extracted binary file metadata snapshot buffer pool under validation, or null if the file was inaccessible.
+   * @param fileName - The human-readable file identifier name used to populate descriptive error outputs on failure.
+   * @param filePath - The system absolute or relative disk location pointer under evaluation.
+   */
+  testIsExists(metadata: Buffer<ArrayBuffer> | null, fileName: string, filePath: string): void;
 
   /**
    * Asserts that a deferred file metadata snapshot matches the standard PNG binary magic number signature.
