@@ -7,7 +7,7 @@ import fileTestHelper from '../../file-test-helper.js';
 // Tests
 //================================
 
-vitest.describe.concurrent('Assets. Iconst - Integration Testing', describe);
+vitest.describe.concurrent('Assets. Icons - Integration Testing', describe);
 
 function describe() {
   const iconsDirectoryPath = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../../../assets/icons');
