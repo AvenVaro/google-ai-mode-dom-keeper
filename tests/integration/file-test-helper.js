@@ -20,6 +20,7 @@ const rootDirectoryPath = path.resolve(path.dirname(fileURLToPath(import.meta.ur
 /** @type {FileTestHelper} */
 const fileTestHelper = Object.freeze({
   rootDirectoryPath: rootDirectoryPath,
+  tryReadFileAsync: tryReadFileAsync,
   tryReadMetadataAsync: tryReadMetadataAsync,
   testIsExistsAsync: testIsExistsAsync,
   testIsPngAsync: testIsPngAsync,
@@ -47,25 +48,44 @@ export default fileTestHelper;
  * and yields a fallback empty state instead of crashing the process thread.
  *
  * @param {string} path - The absolute or relative system disk location pointer to extract metadata from.
- * @param {boolean} [readFull=false] - An optional configuration flag indicating whether to extract the complete file payload instead of the initial 24-byte fragment.
  *
  * @returns {Promise<Buffer<ArrayBuffer> | null>} A promise resolving to a 24-byte allocated data Buffer snapshot if successful; otherwise, `null`.
  */
-async function tryReadMetadataAsync(path, readFull = false) {
+async function tryReadMetadataAsync(path) {
   try {
     const handle = await open(path, 'r');
+    const buffer = Buffer.alloc(24);
 
-    /** @type {Buffer<ArrayBuffer>} */
-    let buffer;
+    await handle.read(buffer, 0, 24, 0);
+    await handle.close();
 
-    if (readFull) {
-      buffer = await handle.readFile();
-    }
-    else {
-      buffer = Buffer.alloc(24);
+    return buffer;
+  }
+  catch(e) {
+    console.error(e);
 
-      await handle.read(buffer, 0, 24, 0);
-    }
+    return null;
+  }
+}
+
+/**
+ * @private
+ * @async
+ *
+ * Asynchronously attempts to read the entire contents of a file into a Buffer.
+ *
+ * This utility opens a file handle in read-only mode, extracts its full binary stream payload, and ensures proper resource sanitation by securely closing the file handle afterward. If any
+ * disk exceptions, missing file errors (ENOENT), or permission restrictions occur, it intercepts the failure, logs the error stack trace to the console, and returns a fallback empty state
+ * instead of breaking the execution thread.
+ *
+ * @param {string} path - The absolute or relative file-system path to the targeted file asset.
+ *
+ * @returns {Promise<Buffer<ArrayBuffer> | null>} A promise resolving to the file's raw binary Buffer content if successful; otherwise, `null`.
+ */
+async function tryReadFileAsync(path) {
+  try {
+    const handle = await open(path, 'r');
+    const buffer = await handle.readFile();
 
     await handle.close();
 

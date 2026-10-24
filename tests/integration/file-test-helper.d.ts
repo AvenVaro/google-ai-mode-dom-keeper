@@ -6,14 +6,26 @@ export interface FileTestHelper {
   readonly rootDirectoryPath: string;
 
   /**
+   * Asynchronously attempts to read the entire contents of a file into a Buffer.
+   *
+   * This utility opens a file handle in read-only mode, extracts its full binary stream payload, and ensures proper resource sanitation by securely closing the file handle afterward. If any
+   * disk exceptions, missing file errors (ENOENT), or permission restrictions occur, it intercepts the failure, logs the error stack trace to the console, and returns a fallback empty state
+   * instead of breaking the execution thread.
+   *
+   * @param path - The absolute or relative file-system path to the targeted file asset.
+   *
+   * @returns A promise resolving to the file's raw binary Buffer content if successful; otherwise, `null`.
+   */
+  tryReadFileAsync(path: string): Promise<Buffer<ArrayBuffer> | null>;
+
+  /**
    * Asynchronously attempts to read a 24-byte binary metadata chunk from the beginning of a file.
    *
    * @param path - The absolute or relative system disk location pointer to extract metadata from.
-   * @param readFull - An optional configuration flag indicating whether to extract the complete file payload instead of the initial 24-byte fragment.
    *
    * @returns A promise resolving to a 24-byte allocated data Buffer snapshot if successful; otherwise, `null`.
    */
-  tryReadMetadataAsync(path: string, reedFull?: boolean): Promise<Buffer<ArrayBuffer> | null>;
+  tryReadMetadataAsync(path: string): Promise<Buffer<ArrayBuffer> | null>;
 
   /**
    * Asserts that a deferred file metadata operation resolves successfully to a valid data payload.
