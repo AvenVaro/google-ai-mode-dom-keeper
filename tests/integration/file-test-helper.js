@@ -23,6 +23,7 @@ const fileTestHelper = Object.freeze({
   tryReadFileAsync: tryReadFileAsync,
   tryReadJsonFileAsync: tryReadJsonFileAsync,
   tryReadMetadataAsync: tryReadMetadataAsync,
+  testIsExists: testIsExistsAsync,
   testIsExistsAsync: testIsExistsAsync,
   testIsPngAsync: testIsPngAsync,
   testHasStrictDimensionsAsync: testHasStrictDimensionsAsync
