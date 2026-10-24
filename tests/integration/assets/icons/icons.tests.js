@@ -1,6 +1,5 @@
 import * as vitest from 'vitest';
 import path from 'path';
-import { fileURLToPath } from 'url';
 import fileTestHelper from '../../file-test-helper.js';
 
 //================================
@@ -10,7 +9,7 @@ import fileTestHelper from '../../file-test-helper.js';
 vitest.describe.concurrent('Assets. Icons - Integration Testing', describe);
 
 function describe() {
-  const iconsDirectoryPath = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../../../assets/icons');
+  const iconsDirectoryPath = path.resolve(fileTestHelper.rootDirectoryPath, 'assets/icons');
 
   const icon16MetadataPromise = fileTestHelper.tryReadMetadataAsync(path.resolve(iconsDirectoryPath, 'icon-google-ai-mode-dom-keeper-16x16.png'));
   const icon32MetadataPromise = fileTestHelper.tryReadMetadataAsync(path.resolve(iconsDirectoryPath, 'icon-google-ai-mode-dom-keeper-32x32.png'));
