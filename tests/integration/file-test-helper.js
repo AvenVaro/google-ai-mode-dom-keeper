@@ -1,5 +1,7 @@
 import * as vitest from 'vitest';
+import path from 'path';
 import { open } from 'node:fs/promises';
+import { fileURLToPath } from 'url';
 
 //================================
 // Typedefs
@@ -13,8 +15,11 @@ import { open } from 'node:fs/promises';
 // Constants
 //================================
 
+const rootDirectoryPath = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
+
 /** @type {FileTestHelper} */
 const fileTestHelper = Object.freeze({
+  rootDirectoryPath: rootDirectoryPath,
   tryReadMetadataAsync: tryReadMetadataAsync,
   testIsExistsAsync: testIsExistsAsync,
   testIsPngAsync: testIsPngAsync,

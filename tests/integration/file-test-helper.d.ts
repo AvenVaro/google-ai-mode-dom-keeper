@@ -2,6 +2,9 @@
  * Provides an immutable, freeze-wrapped interface controlling asynchronous file-system metadata extraction and binary validation routines.
  */
 export interface FileTestHelper {
+  /** The absolute system disk path pointing directly to the root directory of the project workspace. */
+  readonly rootDirectoryPath: string;
+
   /**
    * Asynchronously attempts to read a 24-byte binary metadata chunk from the beginning of a file.
    *
