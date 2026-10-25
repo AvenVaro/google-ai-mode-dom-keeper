@@ -116,12 +116,15 @@ async function tryReadFileAsync(path) {
  * Asynchronously attempts to read and parse the entire contents of a file as JSON.
  *
  * This asset parsing utility opens a file handle in a strict read-only mode, extracts its full binary stream payload, and ensures proper resource sanitation by securely closing the active handle
- * afterward. It decodes the resulting buffer into a standardized UTF-8 string string slice and compiles it into a structured JavaScript object. If any disk errors, missing file conditions, or structural
- * JSON validation faults occur, it intercepts the failure internally, logs the error stack trace to the console, and yields a fallback empty state instead of breaking the execution thread.
+ * afterward. It decodes the resulting buffer into a standardized UTF-8 string slice and compiles it into a structured JavaScript object mapping the specified generic contract type template. If any
+ * disk errors, missing file conditions, or structural JSON validation faults occur, it intercepts the failure internally, logs the error stack trace to the console, and yields a fallback empty state
+ * instead of breaking the execution thread.
+ *
+ * @template [T=Record<string, unknown>] - The expected layout type structure of the parsed JSON object.
  *
  * @param {string} path - The absolute or relative file-system path to the targeted JSON configuration asset.
  *
- * @returns {Promise<any | null>} A promise resolving to the fully parsed JavaScript object structure if successful; otherwise, `null`.
+ * @returns {Promise<T | null>} A promise resolving to the fully parsed JavaScript object typed to `T` if successful; otherwise, `null`.
  */
 async function tryReadJsonFileAsync(path) {
   try {
@@ -130,7 +133,10 @@ async function tryReadJsonFileAsync(path) {
 
     await handle.close();
 
-    return JSON.parse(buffer.toString('utf8'));
+    /** @type {T} */
+    const json = JSON.parse(buffer.toString('utf8'));
+
+    return json;
   }
   catch(e) {
     console.error(e);
