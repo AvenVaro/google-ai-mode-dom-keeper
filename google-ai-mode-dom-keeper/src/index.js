@@ -301,6 +301,10 @@ function setStyleToTurn(turn, style) {
   turn.style.height = style.height;
   turn.style.minHeight = style.minHeight;
   turn.style.overflow = style.overflow;
+
+  if (turn.getAttribute('style') === '' || turn.style.length === 0) {
+    turn.removeAttribute('style');
+  }
 }
 
 /**
