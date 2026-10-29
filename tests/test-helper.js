@@ -5,7 +5,7 @@ import * as vitest from 'vitest';
 //================================
 
 /**
- * @typedef {import('./test-helper.d.ts').TestHelper} TestHelper
+ * @typedef {import('./test-helper').TestHelper} TestHelper
  */
 
 //================================
