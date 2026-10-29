@@ -43,7 +43,8 @@ window.addEventListener('scroll', scheduleScan, { passive: true });
 window[config.globalKey] = {
   stats: getCacheMetricsSnapshot,
   rescan: scan,
-  destroy: destroy
+  destroy: destroy,
+  restore: restore
 };
 
 scan();
@@ -496,11 +497,26 @@ function destroy() {
 
   window.removeEventListener('scroll', scheduleScan);
 
+  restore();
+
+  delete window[config.globalKey];
+}
+
+/**
+ * @private
+ *
+ * Synchronously restores all virtualized document layouts and purges active memory registries.
+ *
+ * This layout reconciliation utility rolls back active UI virtualization states. It iterates through all elements currently tracked within the central cache repository, triggering
+ * `restoreBlock` on each target to re-stitch original DOM configurations and inline styling blueprints. Once the structural rollback loop settles, it flushes the active data buffers to ensure a clean
+ * memory state while leaving engine lifecycle observers and event throttling listeners completely intact.
+ *
+ * @returns {void}
+ */
+function restore() {
   for (const turn of cache.getKeys()) {
     restoreBlock(turn);
   }
 
   cache.clear();
-
-  delete window[config.globalKey];
 }
