@@ -1,6 +1,8 @@
 import * as vitest from 'vitest';
 import esmock from 'esmock';
 import { JSDOM } from 'jsdom';
+import cache from '../../../../google-ai-mode-dom-keeper/src/cache.js';
+import testHelper from '../../../test-helper.js';
 
 //================================
 // Typedefs
@@ -48,11 +50,33 @@ function describe() {
   vitest.it.concurrent('set', test_set_async);
   vitest.it.concurrent('pop', test_pop_async);
   vitest.it.concurrent('del', test_del_async);
+
+  vitest.it.concurrent(
+    'Should expose a strict, immutable lookup dictionary of cache',
+    test_cache_isStrictImmutableDictionary
+  );
 }
 
 //================================
 // Private Functions
 //================================
+
+function test_cache_isStrictImmutableDictionary() {
+  vitest.expect(Object.isFrozen(cache)).toBe(true);
+
+  testHelper.testEntityIsFunction(cache.size, 'size');
+  testHelper.testEntityIsFunction(cache.has, 'has');
+  testHelper.testEntityIsFunction(cache.hasNot, 'hasNot');
+  testHelper.testEntityIsFunction(cache.getKeys, 'getKeys');
+  testHelper.testEntityIsFunction(cache.keys, 'keys');
+  testHelper.testEntityIsFunction(cache.clear, 'clear');
+  testHelper.testEntityIsFunction(cache.deleteOutdated, 'deleteOutdated');
+  testHelper.testEntityIsFunction(cache.set, 'set');
+  testHelper.testEntityIsFunction(cache.pop, 'pop');
+  testHelper.testEntityIsFunction(cache.del, 'del');
+
+  vitest.expect(Object.keys(cache)).toHaveLength(10);
+}
 
 /**
  * @private
