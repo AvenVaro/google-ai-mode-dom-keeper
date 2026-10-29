@@ -34,6 +34,20 @@ export interface TestHelper {
    * @param numberOfKeys - The target exact number of visible keys expected on the evaluated object boundary.
    */
   testEntityIsImmutableObject(entity: any, entityName: string, numberOfKeys: number): void; // eslint-disable-line @typescript-eslint/no-explicit-any
+
+  /**
+   * Generates a standardized, padded diagnostic error message for object key footprint capacity violations.
+   *
+   * This utility acts as a centralized string formatter for interface structural verification assertions. It processes the targeted entity name identifier alongside its expected and actual runtime key counts,
+   * compiling them into a uniform multiline error notification block. This error string is intended to be fed directly into test assertion frameworks or exceptions to cleanly isolate capacity mismatches.
+   *
+   * @param entityName - The human-readable name or qualified path of the runtime module or object under validation.
+   * @param expectedNumberOfKeys - The target exact number of visible keys expected by the structural contract interface rules.
+   * @param actualNumberOfKeys - The live, unresolved count of property keys discovered on the evaluated object boundary.
+   *
+   * @returns A formatted, padded diagnostic error string isolating the structural key count violation.
+   */
+  createEntityInvalidKeysCountErrorMessage(entityName: string, expectedNumberOfKeys: number, actualNumberOfKeys: number): string;
 }
 
 declare const testHelper: TestHelper;

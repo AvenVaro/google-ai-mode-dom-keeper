@@ -17,7 +17,8 @@ const testHelper = Object.freeze({
   testEntityIsFunction: testEntityIsFunction,
   testEntityIsObject: testEntityIsObject,
   testEntityIsNotNullOrEmptyObject: testEntityIsNotNullOrEmptyObject,
-  testEntityIsImmutableObject: testEntityIsImmutableObject
+  testEntityIsImmutableObject: testEntityIsImmutableObject,
+  createEntityInvalidKeysCountErrorMessage: createEntityInvalidKeysCountErrorMessage
 });
 
 //================================
@@ -108,4 +109,22 @@ function testEntityIsImmutableObject(entity, entityName, numberOfKeys) {
   const actualKeys = Object.keys(entity);
 
   vitest.expect(actualKeys, `\n'${entityName}' should have '${numberOfKeys}' keys, but it has '${actualKeys.length}'.\n`).toHaveLength(numberOfKeys);
+}
+
+/**
+ * @private
+ *
+ * Generates a standardized, padded diagnostic error message for object key footprint capacity violations.
+ *
+ * This utility acts as a centralized string formatter for interface structural verification assertions. It processes the targeted entity name identifier alongside its expected and actual runtime key counts,
+ * compiling them into a uniform multiline error notification block. This error string is intended to be fed directly into test assertion frameworks or exceptions to cleanly isolate capacity mismatches.
+ *
+ * @param {string} entityName - The human-readable name or qualified path of the runtime module or object under validation.
+ * @param {number} expectedNumberOfKeys - The target exact number of visible keys expected by the structural contract interface rules.
+ * @param {number} actualNumberOfKeys - The live, unresolved count of property keys discovered on the evaluated object boundary.
+ *
+ * @returns {string} A formatted, padded diagnostic error string isolating the structural key count violation.
+ */
+function createEntityInvalidKeysCountErrorMessage(entityName, expectedNumberOfKeys, actualNumberOfKeys) {
+  return `\n'${entityName}' should have '${expectedNumberOfKeys}' keys, but it has '${actualNumberOfKeys}'.\n`;
 }
