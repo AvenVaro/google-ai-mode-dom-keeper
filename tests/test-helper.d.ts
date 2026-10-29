@@ -36,6 +36,14 @@ export interface TestHelper {
   testEntityIsImmutableObject(entity: any, entityName: string, numberOfKeys: number): void; // eslint-disable-line @typescript-eslint/no-explicit-any
 
   /**
+   * Asserts that a targeted runtime entity, module export, or property is securely defined.
+   *
+   * @param entity - The live runtime component, dictionary, or config namespace under evaluation.
+   * @param entityName - The human-readable variable or interface name used to populate descriptive error traces.
+   */
+  testEntityIsDefined(entity: any, entityName: string): void; // eslint-disable-line @typescript-eslint/no-explicit-any
+
+  /**
    * Generates a standardized, padded diagnostic error message for object key footprint capacity violations.
    *
    * This utility acts as a centralized string formatter for interface structural verification assertions. It processes the targeted entity name identifier alongside its expected and actual runtime key counts,

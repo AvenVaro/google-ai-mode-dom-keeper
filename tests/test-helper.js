@@ -18,6 +18,7 @@ const testHelper = Object.freeze({
   testEntityIsObject: testEntityIsObject,
   testEntityIsNotNullOrEmptyObject: testEntityIsNotNullOrEmptyObject,
   testEntityIsImmutableObject: testEntityIsImmutableObject,
+  testEntityIsDefined: testEntityIsDefined,
   createEntityInvalidKeysCountErrorMessage: createEntityInvalidKeysCountErrorMessage
 });
 
@@ -108,7 +109,24 @@ function testEntityIsImmutableObject(entity, entityName, numberOfKeys) {
 
   const actualKeys = Object.keys(entity);
 
-  vitest.expect(actualKeys, `\n'${entityName}' should have '${numberOfKeys}' keys, but it has '${actualKeys.length}'.\n`).toHaveLength(numberOfKeys);
+  vitest.expect(actualKeys, createEntityInvalidKeysCountErrorMessage(entityName, numberOfKeys, actualKeys.length)).toHaveLength(numberOfKeys);
+}
+
+/**
+ * @private
+ *
+ * Asserts that a targeted runtime entity, module export, or property is securely defined.
+ *
+ * This structural contract utility serves as a baseline lifecycle check within your test suites. It evaluates the target reference and leverages Vitest to strictly enforce that the payload
+ * is defined, passing a padded, high-visibility error notification block into the matcher to cleanly isolate missing reference anomalies during execution passes.
+ *
+ * @param {any} entity - The live runtime component, object property, or module export under evaluation.
+ * @param {string} entityName - The human-readable variable or interface name used to populate descriptive error traces.
+ *
+ * @returns {void}
+ */
+function testEntityIsDefined(entity, entityName) {
+  vitest.expect(entity, `\n'${entityName}' is not defined.\n`).toBeDefined();
 }
 
 /**
