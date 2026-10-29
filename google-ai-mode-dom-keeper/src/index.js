@@ -322,6 +322,8 @@ function setStyleToTurn(turn, style) {
  * @returns {void}
  */
 function restoreDOM(turn, context) {
+  turn.innerHTML = context.html;
+
   const parent = turn.parentNode;
 
   if (parent === null) {
