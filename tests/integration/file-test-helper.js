@@ -181,7 +181,7 @@ async function testIsExistsAsync(metadataPromise, fileName, filePath) {
  * @returns {void}
  */
 function testIsExists(metadata, fileName, filePath) {
-  vitest.expect(metadata, `File '${fileName}' not found.\nPath: '${filePath}'`).not.toBeNull();
+  vitest.expect(metadata, `\nFile '${fileName}' not found.\nPath: '${filePath}'\n`).not.toBeNull();
 }
 
 /**
@@ -194,14 +194,17 @@ function testIsExists(metadata, fileName, filePath) {
  * utilizes Vitest to strictly match its hexadecimal string representation against the official PNG magic byte benchmark (`89504e470d0a1a0a`).
  *
  * @param {Promise<Buffer<ArrayBuffer> | null>} metadataPromise - A promise representing the pending 24-byte file metadata extraction pass.
+ * @param {string} fileName - The human-readable file identifier name used to populate descriptive error outputs on failure.
+ * @param {string} filePath - The system absolute or relative disk location pointer under evaluation.
  *
  * @returns {Promise<void>} A promise that resolves once the Vitest signature validation assertion is complete.
  */
-async function testIsPngAsync(metadataPromise) {
+async function testIsPngAsync(metadataPromise, fileName, filePath) {
   const metadata = await metadataPromise;
 
-  vitest.expect(metadata).not.toBeNull();
-  vitest.expect(metadata.toString('hex', 0, 8)).toBe('89504e470d0a1a0a');
+  testIsExists(metadata, fileName, filePath);
+
+  vitest.expect(metadata.toString('hex', 0, 8), `\n'${fileName}' is not PNG.\nPath: '${filePath}'\n`).toBe('89504e470d0a1a0a');
 }
 
 /**
@@ -216,13 +219,19 @@ async function testIsPngAsync(metadataPromise) {
  * @param {Promise<Buffer<ArrayBuffer> | null>} metadataPromise - A promise representing the pending 24-byte binary file header snapshot.
  * @param {number} width - The explicit expected pixel width criteria boundary.
  * @param {number} height - The explicit expected pixel height criteria boundary.
+ * @param {string} fileName - The human-readable file identifier name used to populate descriptive error outputs on failure.
+ * @param {string} filePath - The system absolute or relative disk location pointer under evaluation.
  *
  * @returns {Promise<void>} A promise that resolves once both structural dimension assertions are complete.
  */
-async function testHasStrictDimensionsAsync(metadataPromise, width, height) {
+async function testHasStrictDimensionsAsync(metadataPromise, width, height, fileName, filePath) {
   const metadata = await metadataPromise;
 
-  vitest.expect(metadata).not.toBeNull();
-  vitest.expect(metadata.readInt32BE(16)).toBe(width);
-  vitest.expect(metadata.readInt32BE(20)).toBe(height);
+  testIsExists(metadata, fileName, filePath);
+
+  const actualWidth = metadata.readInt32BE(16);
+  const actualHeight = metadata.readInt32BE(20);
+
+  vitest.expect(actualWidth, `\nIncorrect image dimensions for '${fileName}'. The width is '${actualWidth}', but it should be '${width}'. Path: '${filePath}'.\n`).toBe(width);
+  vitest.expect(actualHeight, `\nIncorrect image dimensions for '${fileName}'. The height is '${actualHeight}', but it should be '${width}'. Path: '${filePath}'.\n`).toBe(height);
 }

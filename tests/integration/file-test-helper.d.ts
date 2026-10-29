@@ -79,10 +79,12 @@ export interface FileTestHelper {
    * Asserts that a deferred file metadata snapshot matches the standard PNG binary magic number signature.
    *
    * @param metadataPromise - A promise representing the pending 24-byte file metadata extraction pass.
+   * @param fileName - The human-readable file identifier name used to populate descriptive error outputs on failure.
+   * @param filePath - The system absolute or relative disk location pointer under evaluation.
    *
    * @returns A promise that resolves once the Vitest signature validation assertion is complete.
    */
-  testIsPngAsync(metadataPromise: Promise<Buffer<ArrayBuffer> | null>): Promise<void>;
+  testIsPngAsync(metadataPromise: Promise<Buffer<ArrayBuffer> | null>, fileName: string, filePath: string): Promise<void>;
 
   /**
    * Asserts that a deferred PNG file metadata buffer matches the exact expected pixel width and height dimensions.
@@ -90,10 +92,12 @@ export interface FileTestHelper {
    * @param metadataPromise - A promise representing the pending 24-byte binary file header snapshot.
    * @param width - The explicit expected pixel width criteria boundary.
    * @param height - The explicit expected pixel height criteria boundary.
+   * @param fileName - The human-readable file identifier name used to populate descriptive error outputs on failure.
+   * @param filePath - The system absolute or relative disk location pointer under evaluation.
    *
    * @returns A promise that resolves once both structural dimension assertions are complete.
    */
-  testHasStrictDimensionsAsync(metadataPromise: Promise<Buffer<ArrayBuffer> | null>, width: number, height: number): Promise<void>;
+  testHasStrictDimensionsAsync(metadataPromise: Promise<Buffer<ArrayBuffer> | null>, width: number, height: number, fileName: string, filePath: string): Promise<void>;
 }
 
 declare const fileTestHelper: FileTestHelper;
