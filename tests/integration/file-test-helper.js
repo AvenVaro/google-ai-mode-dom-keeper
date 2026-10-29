@@ -232,6 +232,6 @@ async function testHasStrictDimensionsAsync(metadataPromise, width, height, file
   const actualWidth = metadata.readInt32BE(16);
   const actualHeight = metadata.readInt32BE(20);
 
-  vitest.expect(actualWidth, `\nIncorrect image dimensions for '${fileName}'. The width is '${actualWidth}', but it should be '${width}'. Path: '${filePath}'.\n`).toBe(width);
-  vitest.expect(actualHeight, `\nIncorrect image dimensions for '${fileName}'. The height is '${actualHeight}', but it should be '${width}'. Path: '${filePath}'.\n`).toBe(height);
+  vitest.expect(actualWidth, `\nIncorrect image dimensions for '${fileName}'.\nThe width is '${actualWidth}', but it should be '${width}'.\nPath: '${filePath}'.\n`).toBe(width);
+  vitest.expect(actualHeight, `\nIncorrect image dimensions for '${fileName}'.\nThe height is '${actualHeight}', but it should be '${width}'.\nPath: '${filePath}'.\n`).toBe(height);
 }
