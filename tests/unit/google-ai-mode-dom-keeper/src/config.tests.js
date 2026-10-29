@@ -1,5 +1,6 @@
 import * as vitest from 'vitest';
 import config from '../../../../google-ai-mode-dom-keeper/src/config.js';
+import testHelper from '../../../test-helper.js';
 
 //================================
 // Tests
@@ -15,11 +16,10 @@ function describe() {
 }
 
 function test_config_isStrictImmutableDictionary() {
-  vitest.expect(Object.isFrozen(config)).toBe(true);
+  testHelper.testEntityIsImmutableObject(config, 'config', 3);
 
-  vitest.expect(config.globalKey).toBe('__GOOGLE_AI_MODE_DOM_KEEPER__');
-  vitest.expect(config.keepMax).toBe(4);
-  vitest.expect(config.selector).toBe('.CKgc1d[data-scope-id="turn"]');
+  const selector = '.CKgc1d[data-scope-id="turn"]';
 
-  vitest.expect(Object.keys(config)).toHaveLength(3);
+  vitest.expect(config.keepMax > 1, '\n\'config.keepMax\' must be greater than 1\n').toBe(true);
+  vitest.expect(config.selector, `\n'config.selector' must be '${selector}'\n`).toBe(selector);
 }

@@ -62,7 +62,7 @@ function describe() {
 //================================
 
 function test_cache_isStrictImmutableDictionary() {
-  vitest.expect(Object.isFrozen(cache)).toBe(true);
+  testHelper.testEntityIsImmutableObject(cache, 'cache', 10);
 
   testHelper.testEntityIsFunction(cache.size, 'size');
   testHelper.testEntityIsFunction(cache.has, 'has');
@@ -74,8 +74,6 @@ function test_cache_isStrictImmutableDictionary() {
   testHelper.testEntityIsFunction(cache.set, 'set');
   testHelper.testEntityIsFunction(cache.pop, 'pop');
   testHelper.testEntityIsFunction(cache.del, 'del');
-
-  vitest.expect(Object.keys(cache)).toHaveLength(10);
 }
 
 /**
