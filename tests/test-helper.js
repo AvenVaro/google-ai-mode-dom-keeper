@@ -16,6 +16,7 @@ import * as vitest from 'vitest';
 const testHelper = Object.freeze({
   testEntityIsFunction: testEntityIsFunction,
   testEntityIsObject: testEntityIsObject,
+  testEntityIsNull: testEntityIsNull,
   testEntityIsNotNullOrEmptyObject: testEntityIsNotNullOrEmptyObject,
   testEntityIsImmutableObject: testEntityIsImmutableObject,
   testEntityIsDefined: testEntityIsDefined,
@@ -68,6 +69,25 @@ function testEntityIsObject(entity, entityName) {
   const actualType = typeof entity;
 
   vitest.expect(actualType, `\n'${entityName}' must be a object, not be a '${actualType}'.\n`).toBe('object');
+}
+
+/**
+ * @private
+ *
+ * Asserts that a targeted runtime entity or property is strictly structured as an object but holds a null value.
+ *
+ * This structural contract utility validates pointer states within your test suites. It runs a baseline `typeof` verification via `testEntityIsObject` to confirm object formatting (since native `null` evaluates
+ * as an 'object' type in JavaScript), and leverages Vitest to strictly enforce that the payload resolves to `null`, passing a padded, high-visibility error notification block to cleanly isolate unexpected object allocations.
+ *
+ * @param {any} entity - The live runtime component, property reference, or object pointer under evaluation.
+ * @param {string} entityName - The human-readable variable or interface name used to populate descriptive error traces.
+ *
+ * @returns {void}
+ */
+function testEntityIsNull(entity, entityName) {
+  testEntityIsObject(entity, entityName);
+
+  vitest.expect(entity, `\n'${entityName}' must be a null.\n`).toBeNull();
 }
 
 /**

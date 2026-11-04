@@ -19,6 +19,14 @@ export interface TestHelper {
   testEntityIsObject(entity: any, entityName: string): void; // eslint-disable-line @typescript-eslint/no-explicit-any
 
   /**
+   * Asserts that a targeted runtime entity or property is strictly structured as an object but holds a null value.
+   *
+   * @param entity - The live runtime component, property reference, or object pointer under evaluation.
+   * @param entityName - The human-readable variable or interface name used to populate descriptive error traces.
+   */
+  testEntityIsNull(entity: any, entityName: string): void; // eslint-disable-line @typescript-eslint/no-explicit-any
+
+  /**
    * Asserts that a targeted runtime entity is a valid object structure that is neither null nor empty.
    *
    * @param entity - The live runtime component, dictionary, or config namespace under evaluation.
