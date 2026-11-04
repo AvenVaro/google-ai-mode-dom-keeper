@@ -17,6 +17,7 @@ const testHelper = Object.freeze({
   testEntityIsFunction: testEntityIsFunction,
   testEntityIsObject: testEntityIsObject,
   testEntityIsNull: testEntityIsNull,
+  testEntityIsNotNull: testEntityIsNotNull,
   testEntityIsNotNullOrEmptyObject: testEntityIsNotNullOrEmptyObject,
   testEntityIsImmutableObject: testEntityIsImmutableObject,
   testEntityIsDefined: testEntityIsDefined,
@@ -105,9 +106,29 @@ function testEntityIsNull(entity, entityName) {
  */
 function testEntityIsNotNullOrEmptyObject(entity, entityName) {
   testEntityIsObject(entity, entityName);
+  testEntityIsNotNull(entity, entityName);
+
+  vitest.expect(Object.keys(entity), `\n'${entityName}' must be not a empty object.\n`).not.toHaveLength(0);
+}
+
+/**
+ * @private
+ *
+ * Asserts that a targeted runtime entity or property is a valid object structure and is not null.
+ *
+ * This structural contract utility validates memory boundary references within your test suites. It runs a baseline validation check via `testEntityIsObject` to ensure object structural conformity,
+ * and leverages Vitest to strictly enforce that the reference does not hold a `null` value pointer, passing a padded, high-visibility error notification block into the matcher to cleanly isolate
+ * unexpected null values during execution sweeps.
+ *
+ * @param {any} entity - The live runtime component, dictionary, or object pointer under evaluation.
+ * @param {string} entityName - The human-readable variable or interface name used to populate descriptive error traces.
+ *
+ * @returns {void}
+ */
+function testEntityIsNotNull(entity, entityName) {
+  testEntityIsObject(entity, entityName);
 
   vitest.expect(entity, `\n'${entityName}' must be not a null.\n`).not.toBeNull();
-  vitest.expect(Object.keys(entity), `\n'${entityName}' must be not a empty object.\n`).not.toHaveLength(0);
 }
 
 /**
