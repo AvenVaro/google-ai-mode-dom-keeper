@@ -117,39 +117,3 @@ function copyFiles() {
   fs.copyFileSync(path.resolve(iconsDirectoryPath, icon48FileName), path.resolve(distDirectoryPaths.icons, icon48FileName));
   fs.copyFileSync(path.resolve(iconsDirectoryPath, icon128FileName), path.resolve(distDirectoryPaths.icons, icon128FileName));
 }
-
-// async function runBuild() {
-//   console.log('📦 Starting the build of the extension...');
-
-//   await esbuild.build({
-//     entryPoints: [ 'src/index.js' ],
-//     bundle: true,
-//     outfile: 'dist/scripts/google-ai-mode-dom-keeper.js',
-//     minify: false,
-//     sourcemap: false,
-//     target: [ 'chrome100' ]
-//   });
-
-//   fs.copyFileSync('manifest.json', 'dist/manifest.json');
-//   console.log('✓ manifest.json copied to dist/');
-
-//   if (fs.existsSync('README.md')) {
-//     fs.copyFileSync('README.md', 'dist/README.md');
-//   }
-//   if (fs.existsSync('LICENSE')) {
-//     fs.copyFileSync('LICENSE', 'dist/LICENSE');
-//   }
-
-//   // Если есть папка с иконками — копируем её целиком
-//   if (fs.existsSync('icons')) {
-//     fs.cpSync('icons', 'dist/icons', { recursive: true });
-//     console.log('✓ Папка icons/ скопирована в dist/');
-//   }
-
-//   console.log('\n🚀 Билд успешно собран в папку /dist!');
-// }
-
-// runBuild().catch((err) => {
-//   console.error('❌ Ошибка сборки:', err);
-//   process.exit(1);
-// });
