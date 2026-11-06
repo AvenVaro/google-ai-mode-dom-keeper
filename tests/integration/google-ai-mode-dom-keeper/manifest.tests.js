@@ -154,7 +154,7 @@ async function testManifestIconsHasValidPathAsync(manifestJsonPromise, manifestJ
 
   fileTestHelper.testIsExists(manifest, manifestJsonFileName, manifestJsonFilePath);
 
-  const expectedValue = `icons/${iconFileName}`;
+  const expectedValue = `img/icons/${iconFileName}`;
 
   vitest.expect(manifest.icons[propertyName], createPropertyInvalidValueErrorMessage(`icons.${propertyName}`, expectedValue)).toBe(expectedValue);
 }
@@ -181,9 +181,7 @@ async function testContentScriptsHasValidValuesAsync(manifestJsonPromise, manife
 
   vitest.expect(manifest.content_scripts.length, createLengthErrorMessage('manifest.content_scripts', 1)).toBe(1);
 
-  for (let i = 0; i < manifest.content_scripts.length; i++) {
-    testContentScriptHasValidValues(manifest.content_scripts[i], i);
-  }
+  testContentScriptHasValidValues(manifest.content_scripts[0], 0);
 }
 
 /**
@@ -205,7 +203,7 @@ function testContentScriptHasValidValues(contentScript, index) {
   vitest.expect(contentScript.js.length, createLengthErrorMessage(`manifest.content_scripts[${index}].js`, 1)).toBe(1);
 
   const matches0expectedValue = '*://www.google.com/search*';
-  const js0expectedValue = 'google-ai-mode-dom-keeper.js';
+  const js0expectedValue = 'js/index.js';
   const runAtExpectedValue = 'document_idle';
 
   vitest.expect(contentScript.matches[0], createPropertyInvalidValueErrorMessage(`manifest.content_scripts[${index}].matches[0]`, matches0expectedValue)).toBe(matches0expectedValue);
