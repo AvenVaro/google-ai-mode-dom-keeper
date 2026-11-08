@@ -215,13 +215,30 @@ function getBlockSiblings(turn) {
 
   let next = turn.nextSibling;
 
-  while (next !== null && !isTurn(next)) {
+  while (next !== null && !isTurn(next) && !isEndController(next)) {
     siblings.push(next);
 
     next = next.nextSibling;
   }
 
   return siblings;
+}
+
+/**
+ * @private
+ *
+ * Evaluates whether a target structural node represents the terminal, fully-rendered chunk controller barrier.
+ *
+ * This DOM structural predicate acts as an event parsing lifecycle guard. It validates the node type inheritance chain, checking if the node is an instance of an active HTML element container and whether
+ * its metadata configuration matches a highly specific multi-attribute signature (`[jscontroller="Gtg4Ge#UWxVJd"][data-complete="true"]`).
+ * Reaching this specific boundary confirms that a dynamic chunk stream or text sequence block has fully settled.
+ *
+ * @param {ChildNode} node - The raw, loose live child DOM node or text fragment undergoing structural layout screening.
+ *
+ * @returns {boolean} `true` if the element completely satisfies the terminal chunk attribute contract rules, otherwise `false`.
+ */
+function isEndController(node) {
+  return node instanceof HTMLElement && node.matches('[jscontroller="Gtg4Ge#UWxVJd"][data-complete="true"]');
 }
 
 /**
