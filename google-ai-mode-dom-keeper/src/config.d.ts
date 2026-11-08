@@ -10,7 +10,10 @@ export type Config = {
   readonly globalKey: string;
 
   /** The explicit CSS selector pattern used to query and watch target DOM elements across the document. */
-  readonly selector: string;
+  readonly turnSelector: string;
+
+  /** The explicit CSS selector pattern used to locate the terminal streaming barrier element that appears in the DOM only when all responses have been completely received. */
+  readonly controllerSelector: string;
 
   /** The maximum number of historical entries, turns, or elements the extension should actively keep and track in memory before cycling out older records. */
   readonly keepMax: number;

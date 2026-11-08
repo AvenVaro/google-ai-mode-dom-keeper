@@ -87,7 +87,7 @@ function handleMutationRecords(mutations) {
  * @returns {CacheMetricsSnapshot} An object containing atomic diagnostic counts of the extension state.
  */
 function getCacheMetricsSnapshot() {
-  const turns = [ ...document.querySelectorAll(config.selector) ];
+  const turns = [ ...document.querySelectorAll(config.turnSelector) ];
 
   return {
     totalTurnsInDOM: turns.length,
@@ -110,7 +110,7 @@ function getCacheMetricsSnapshot() {
  */
 function isTurn(node) {
   return node instanceof HTMLElement
-    && node.matches(config.selector)
+    && node.matches(config.turnSelector)
     && node.isConnected
   ;
 }
@@ -230,15 +230,14 @@ function getBlockSiblings(turn) {
  * Evaluates whether a target structural node represents the terminal, fully-rendered chunk controller barrier.
  *
  * This DOM structural predicate acts as an event parsing lifecycle guard. It validates the node type inheritance chain, checking if the node is an instance of an active HTML element container and whether
- * its metadata configuration matches a highly specific multi-attribute signature (`[jscontroller="Gtg4Ge#UWxVJd"][data-complete="true"]`).
- * Reaching this specific boundary confirms that a dynamic chunk stream or text sequence block has fully settled.
+ * its metadata configuration matches a highly specific multi-attribute signature. Reaching this specific boundary confirms that a dynamic chunk stream or text sequence block has fully settled.
  *
  * @param {ChildNode} node - The raw, loose live child DOM node or text fragment undergoing structural layout screening.
  *
  * @returns {boolean} `true` if the element completely satisfies the terminal chunk attribute contract rules, otherwise `false`.
  */
 function isEndController(node) {
-  return node instanceof HTMLElement && node.matches('[jscontroller="Gtg4Ge#UWxVJd"][data-complete="true"]');
+  return node instanceof HTMLElement && node.matches(config.controllerSelector);
 }
 
 /**
@@ -470,22 +469,23 @@ function scan() {
     return;
   }
 
-  const turns = [ ...document.querySelectorAll(config.selector) ];
+  const turns = [ ...document.querySelectorAll(config.turnSelector) ];
 
   if (turns.length === 0) {
     return;
   }
 
   const visibleTurns = getVisibleTurns(turns);
+  const lastTurn = turns[turns.length - 1];
 
   mutationObserver.disconnect();
 
   for (const turn of turns) {
-    if (visibleTurns.has(turn)) {
-      restoreBlock(turn);
+    if (!visibleTurns.has(turn) && (turn !== lastTurn || document.querySelector(config.controllerSelector) !== null)) {
+      parkBlock(turn);
     }
     else {
-      parkBlock(turn);
+      restoreBlock(turn);
     }
   }
 

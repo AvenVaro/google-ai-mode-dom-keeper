@@ -128,6 +128,8 @@ function createAndConfigureTestContext() {
     }
   }
 
+  htmlArray.push('<div class="sNRHic" jsaction="" jscontroller="Gtg4Ge#UWxVJd" data-sfc-root="c" jsuid="y5pWY_ecg" data-processed="true"><!--TgQPHd|||[]--></div>');
+
   const htmlString = htmlArray.join('');
 
   globalThis.document.body.innerHTML = htmlString;

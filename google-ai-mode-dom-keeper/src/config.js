@@ -15,7 +15,8 @@
 /** @type {Config} */
 const config = Object.freeze({
   globalKey: '__GOOGLE_AI_MODE_DOM_KEEPER__',
-  selector: '.CKgc1d[data-scope-id="turn"]',
+  turnSelector: '.CKgc1d[data-scope-id="turn"]',
+  controllerSelector: '[jscontroller="Gtg4Ge#UWxVJd"]',
   keepMax: 4
 });
 

@@ -16,10 +16,12 @@ function describe() {
 }
 
 function test_config_isStrictImmutableDictionary() {
-  testHelper.testEntityIsImmutableObject(config, 'config', 3);
+  testHelper.testEntityIsImmutableObject(config, 'config', 4);
 
-  const selector = '.CKgc1d[data-scope-id="turn"]';
+  const turnSelector = '.CKgc1d[data-scope-id="turn"]';
+  const controllerSelector = '[jscontroller="Gtg4Ge#UWxVJd"]';
 
   vitest.expect(config.keepMax > 1, '\n\'config.keepMax\' must be greater than 1\n').toBe(true);
-  vitest.expect(config.selector, `\n'config.selector' must be '${selector}'\n`).toBe(selector);
+  vitest.expect(config.turnSelector, `\n'config.turnSelector' must be '${turnSelector}'\n`).toBe(turnSelector);
+  vitest.expect(config.controllerSelector, `\n'config.controllerSelector' must be '${controllerSelector}'\n`).toBe(controllerSelector);
 }
