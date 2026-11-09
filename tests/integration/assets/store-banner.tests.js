@@ -9,7 +9,7 @@ import fileTestHelper from '../file-test-helper.js';
 vitest.describe.concurrent('Assets. Store Banner - Integration Testing', describe);
 
 function describe() {
-  const storeBannerFileName = 'github-repository-google-ai-mode-dom-keeper-social-store-banner-480x240-compressed.png';
+  const storeBannerFileName = 'github-repository-google-ai-mode-dom-keeper-store-banner-480x240-compressed.png';
   const storeBannerFilePath = path.resolve(fileTestHelper.rootDirectoryPath, 'assets', storeBannerFileName);
   const storeBannerMetadataPromise = fileTestHelper.tryReadMetadataAsync(storeBannerFilePath);
 
