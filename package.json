@@ -15,7 +15,7 @@
     "lint:fix": "eslint . --fix",
     "tests": "vitest run",
     "tests:watch": "vitest",
-    "build": "node google-ai-mode-dom-keeper/build.js"
+    "build": "npm run tests && node google-ai-mode-dom-keeper/build.js"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
