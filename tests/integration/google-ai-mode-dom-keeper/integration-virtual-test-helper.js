@@ -9,7 +9,7 @@ import testHelper from '../../test-helper.js';
 //================================
 
 /**
- * @typedef {import('./integration-virtual-test-helper.d.ts').FileTestHelper} IntegrationVirtualTestHelper
+ * @typedef {import('./integration-virtual-test-helper.d.ts').IntegrationVirtualTestHelper} IntegrationVirtualTestHelper
  * @typedef {import('./integration-virtual-test-helper.d.ts').PropertyMockDescriptor} PropertyMockDescriptor
  * @typedef {import('./integration-virtual-test-helper.d.ts').VirtualNode} VirtualNode
  * @typedef {import('./integration-virtual-test-helper.d.ts').TestContext} TestContext
