@@ -13,7 +13,7 @@ function describe() {
   const readmeBannerFilePath = path.resolve(fileTestHelper.rootDirectoryPath, 'assets', readmeBannerFileName);
   const readmeBannerMetadataPromise = fileTestHelper.tryReadMetadataAsync(readmeBannerFilePath);
 
-  vitest.it.concurrent('Store Banner is exists', async () => await fileTestHelper.testIsExistsAsync(readmeBannerMetadataPromise, readmeBannerFileName, readmeBannerFilePath));
-  vitest.it.concurrent('Store Banner is WebP', async () => await fileTestHelper.testIsWebpAsync(readmeBannerMetadataPromise, readmeBannerFileName, readmeBannerFilePath));
-  vitest.it.concurrent('Store Banner has strict dimensions', async () => await fileTestHelper.testHasStrictWebpDimensionsAsync(readmeBannerMetadataPromise, 1520, 608, readmeBannerFileName, readmeBannerFilePath));
+  vitest.it.concurrent('Readme Banner is exists', async () => await fileTestHelper.testIsExistsAsync(readmeBannerMetadataPromise, readmeBannerFileName, readmeBannerFilePath));
+  vitest.it.concurrent('Readme Banner is WebP', async () => await fileTestHelper.testIsWebpAsync(readmeBannerMetadataPromise, readmeBannerFileName, readmeBannerFilePath));
+  vitest.it.concurrent('Readme Banner has strict dimensions', async () => await fileTestHelper.testHasStrictWebpDimensionsAsync(readmeBannerMetadataPromise, 1520, 608, readmeBannerFileName, readmeBannerFilePath));
 }
