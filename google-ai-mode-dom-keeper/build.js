@@ -93,8 +93,19 @@ function createDistDirectories() {
   fs.mkdirSync(distDirectoryPaths.icons, directoryOptions);
 }
 
+/**
+ * @private
+ *
+ * Synchronously copies static extension assets, distribution metadata, and branding assets to the build targets.
+ *
+ * This compilation asset manager processes and deploys non-code dependencies required to assemble a compliant, production-ready extension package. It resolves full file-system paths for documentation,
+ * compliance legal sheets, manifest declarations, and varying icon scales (`16x16` up to `128x128`). It then transfers these files into their targeted target output locations using atomic copy calls.
+ *
+ * @returns {void}
+ */
 function copyFiles() {
   const manifestJsonFileName = 'manifest.json';
+  const readmeMdFileName = 'README.md';
 
   const licenseFileName = 'LICENSE';
   const noticeFileName = 'NOTICE';
@@ -108,6 +119,7 @@ function copyFiles() {
   const iconsDirectoryPath = path.resolve(rootDirectoryPath, 'assets/icons');
 
   fs.copyFileSync(path.resolve(buildJsDirectoryPath, manifestJsonFileName), path.resolve(distDirectoryPaths.dist, manifestJsonFileName));
+  fs.copyFileSync(path.resolve(buildJsDirectoryPath, readmeMdFileName), path.resolve(distDirectoryPaths.dist, readmeMdFileName));
 
   fs.copyFileSync(path.resolve(rootDirectoryPath, licenseFileName), path.resolve(distDirectoryPaths.dist, licenseFileName));
   fs.copyFileSync(path.resolve(rootDirectoryPath, noticeFileName), path.resolve(distDirectoryPaths.dist, noticeFileName));
