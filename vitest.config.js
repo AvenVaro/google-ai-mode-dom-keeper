@@ -1,7 +1,8 @@
 import { defineConfig } from 'vitest/config';
 
 const integrationVirtual = [
-  'tests/integration/google-ai-mode-dom-keeper/src/index.tests.js'
+  'tests/integration/google-ai-mode-dom-keeper/src/index.tests.js',
+  'tests/integration/google-ai-mode-dom-keeper/dist/js/index.tests.js'
 ];
 
 export default defineConfig({
@@ -20,6 +21,7 @@ export default defineConfig({
           name: 'integration-virtual',
           environment: 'jsdom',
           include: integrationVirtual,
+          setupFiles: [ './vitest.setup.js' ],
           pool: 'forks',
           forksOptions: {
             isolate: true
