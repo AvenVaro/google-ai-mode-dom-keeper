@@ -8,3 +8,4 @@
 
 # Build
 **/dist/
+!tests/integration/google-ai-mode-dom-keeper/dist/
