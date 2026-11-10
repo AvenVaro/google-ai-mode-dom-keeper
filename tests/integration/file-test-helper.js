@@ -35,7 +35,9 @@ const fileTestHelper = Object.freeze({
   testIsExists: testIsExistsAsync,
   testIsExistsAsync: testIsExistsAsync,
   testIsPngAsync: testIsPngAsync,
-  testHasStrictDimensionsAsync: testHasStrictDimensionsAsync
+  testIsWebpAsync: testIsWebpAsync,
+  testHasStrictPngDimensionsAsync: testHasStrictPngDimensionsAsync,
+  testHasStrictWebpDimensionsAsync: testHasStrictWebpDimensionsAsync
 });
 
 //================================
@@ -60,14 +62,14 @@ export default fileTestHelper;
  *
  * @param {string} path - The absolute or relative system disk location pointer to extract metadata from.
  *
- * @returns {Promise<Buffer<ArrayBuffer> | null>} A promise resolving to a 24-byte allocated data Buffer snapshot if successful; otherwise, `null`.
+ * @returns {Promise<Buffer<ArrayBuffer> | null>} A promise resolving to a 32-byte allocated data Buffer snapshot if successful; otherwise, `null`.
  */
 async function tryReadMetadataAsync(path) {
   try {
     const handle = await open(path, 'r');
-    const buffer = Buffer.alloc(24);
+    const buffer = Buffer.alloc(32);
 
-    await handle.read(buffer, 0, 24, 0);
+    await handle.read(buffer, 0, 32, 0);
     await handle.close();
 
     return buffer;
@@ -211,6 +213,35 @@ async function testIsPngAsync(metadataPromise, fileName, filePath) {
  * @private
  * @async
  *
+ * Asserts that a deferred file metadata snapshot matches the standard WebP binary magic number signature.
+ *
+ * This asynchronous test utility evaluates the structural container format of a file asset. It awaits the resolution of the metadata buffer promise, extracts the initial 12-byte sequence (excluding the variable file size chunk),
+ * and utilizes Vitest to strictly match its hexadecimal string representation against the official WebP/RIFF magic byte benchmark.
+ *
+ * @param {Promise<Buffer<ArrayBuffer> | null>} metadataPromise - A promise representing the pending 24-byte file metadata extraction pass.
+ * @param {string} fileName - The human-readable file identifier name used to populate descriptive error outputs on failure.
+ * @param {string} filePath - The system absolute or relative disk location pointer under evaluation.
+ *
+ * @returns {Promise<void>} A promise that resolves once the Vitest signature validation assertion is complete.
+ */
+async function testIsWebpAsync(metadataPromise, fileName, filePath) {
+  const metadata = await metadataPromise;
+
+  testIsExists(metadata, fileName, filePath);
+
+  vitest
+    .expect(
+      metadata.toString('hex', 0, 4) + metadata.toString('hex', 8, 12),
+      `\n'${fileName}' is not WebP.\nPath: '${filePath}'\n`
+    )
+    .toBe('5249464657454250')
+  ;
+}
+
+/**
+ * @private
+ * @async
+ *
  * Asserts that a deferred PNG file metadata buffer matches the exact expected pixel width and height dimensions.
  *
  * This asynchronous test utility evaluates the structural image headers of an asset file. It awaits the metadata buffer resolution and reads 32-bit big-endian integers (`readInt32BE`) from the standard
@@ -224,7 +255,7 @@ async function testIsPngAsync(metadataPromise, fileName, filePath) {
  *
  * @returns {Promise<void>} A promise that resolves once both structural dimension assertions are complete.
  */
-async function testHasStrictDimensionsAsync(metadataPromise, width, height, fileName, filePath) {
+async function testHasStrictPngDimensionsAsync(metadataPromise, width, height, fileName, filePath) {
   const metadata = await metadataPromise;
 
   testIsExists(metadata, fileName, filePath);
@@ -234,4 +265,56 @@ async function testHasStrictDimensionsAsync(metadataPromise, width, height, file
 
   vitest.expect(actualWidth, `\nIncorrect image dimensions for '${fileName}'.\nThe width is '${actualWidth}', but it should be '${width}'.\nPath: '${filePath}'.\n`).toBe(width);
   vitest.expect(actualHeight, `\nIncorrect image dimensions for '${fileName}'.\nThe height is '${actualHeight}', but it should be '${width}'.\nPath: '${filePath}'.\n`).toBe(height);
+}
+
+/**
+ * @private
+ * @async
+ *
+ * Asserts that a deferred WebP file metadata buffer matches the exact expected pixel width and height dimensions.
+ *
+ * This asynchronous test utility evaluates the structural image headers of a WebP asset file. It awaits the metadata buffer resolution, identifies the WebP format subtype (VP8, VP8L, or VP8X)
+ * starting at byte 12, and extracts the dimensions using the appropriate byte offsets and Little-Endian byte-order parsing logic.
+ *
+ * @param {Promise<Buffer<ArrayBuffer> | null>} metadataPromise - A promise representing the pending file header snapshot.
+ * @param {number} width - The explicit expected pixel width criteria boundary.
+ * @param {number} height - The explicit expected pixel height criteria boundary.
+ * @param {string} fileName - The human-readable file identifier name used to populate descriptive error outputs on failure.
+ * @param {string} filePath - The system absolute or relative disk location pointer under evaluation.
+ *
+ * @returns {Promise<void>} A promise that resolves once both structural dimension assertions are complete.
+ */
+async function testHasStrictWebpDimensionsAsync(metadataPromise, width, height, fileName, filePath) {
+  const metadata = await metadataPromise;
+
+  testIsExists(metadata, fileName, filePath);
+
+  const type = metadata.toString('utf8', 12, 16);
+
+  let actualWidth;
+  let actualHeight;
+
+  if (type === 'VP8 ') {
+    actualWidth = metadata.readUInt16LE(26) & 0x3FFF;
+    actualHeight = metadata.readUInt16LE(28) & 0x3FFF;
+  }
+  else if (type === 'VP8L') {
+    const b1 = metadata.readUInt8(21);
+    const b2 = metadata.readUInt8(22);
+    const b3 = metadata.readUInt8(23);
+    const b4 = metadata.readUInt8(24);
+
+    actualWidth = (b1 | ((b2 & 0x3F) << 8)) + 1;
+    actualHeight = (((b2 & 0xC0) >> 6) | (b3 << 2) | ((b4 & 0x03) << 10)) + 1;
+  }
+  else if (type === 'VP8X') {
+    actualWidth = (metadata.readUIntLE(24, 3)) + 1;
+    actualHeight = (metadata.readUIntLE(27, 3)) + 1;
+  }
+  else {
+    throw new Error(`Unsupported or invalid WebP subtype format '${type}' for file '${fileName}'.`);
+  }
+
+  vitest.expect(actualWidth, `\nIncorrect image dimensions for '${fileName}'.\nThe width is '${actualWidth}', but it should be '${width}'.\nPath: '${filePath}'.\n`).toBe(width);
+  vitest.expect(actualHeight, `\nIncorrect image dimensions for '${fileName}'.\nThe height is '${actualHeight}', but it should be '${height}'.\nPath: '${filePath}'.\n`).toBe(height);
 }

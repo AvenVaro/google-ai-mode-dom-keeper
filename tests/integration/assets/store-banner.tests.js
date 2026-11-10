@@ -15,5 +15,5 @@ function describe() {
 
   vitest.it.concurrent('Store Banner is exists', async () => await fileTestHelper.testIsExistsAsync(storeBannerMetadataPromise, storeBannerFileName, storeBannerFilePath));
   vitest.it.concurrent('Store Banner is PNG', async () => await fileTestHelper.testIsPngAsync(storeBannerMetadataPromise, storeBannerFileName, storeBannerFilePath));
-  vitest.it.concurrent('Store Banner has strict dimensions', async () => await fileTestHelper.testHasStrictDimensionsAsync(storeBannerMetadataPromise, 480, 240, storeBannerFileName, storeBannerFilePath));
+  vitest.it.concurrent('Store Banner has strict dimensions', async () => await fileTestHelper.testHasStrictPngDimensionsAsync(storeBannerMetadataPromise, 480, 240, storeBannerFileName, storeBannerFilePath));
 }

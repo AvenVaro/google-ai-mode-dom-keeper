@@ -31,8 +31,8 @@ function describe() {
   vitest.it.concurrent('Icon 48. Icon is PNG', async () => await fileTestHelper.testIsPngAsync(icon48MetadataPromise, fileTestHelper.icon48FileName, icon48FilePath));
   vitest.it.concurrent('Icon 128. Icon is PNG', async () => await fileTestHelper.testIsPngAsync(icon128MetadataPromise, fileTestHelper.icon128FileName, icon128FilePath));
 
-  vitest.it.concurrent('Icon 16. Icon has strict dimensions', async () => await fileTestHelper.testHasStrictDimensionsAsync(icon16MetadataPromise, 16, 16, fileTestHelper.icon16FileName, icon16FilePath));
-  vitest.it.concurrent('Icon 32. Icon has strict dimensions', async () => await fileTestHelper.testHasStrictDimensionsAsync(icon32MetadataPromise, 32, 32, fileTestHelper.icon32FileName, icon32FilePath));
-  vitest.it.concurrent('Icon 48. Icon has strict dimensions', async () => await fileTestHelper.testHasStrictDimensionsAsync(icon48MetadataPromise, 48, 48, fileTestHelper.icon48FileName, icon48FilePath));
-  vitest.it.concurrent('Icon 128. Icon has strict dimensions', async () => await fileTestHelper.testHasStrictDimensionsAsync(icon128MetadataPromise, 128, 128, fileTestHelper.icon128FileName, icon128FilePath));
+  vitest.it.concurrent('Icon 16. Icon has strict dimensions', async () => await fileTestHelper.testHasStrictPngDimensionsAsync(icon16MetadataPromise, 16, 16, fileTestHelper.icon16FileName, icon16FilePath));
+  vitest.it.concurrent('Icon 32. Icon has strict dimensions', async () => await fileTestHelper.testHasStrictPngDimensionsAsync(icon32MetadataPromise, 32, 32, fileTestHelper.icon32FileName, icon32FilePath));
+  vitest.it.concurrent('Icon 48. Icon has strict dimensions', async () => await fileTestHelper.testHasStrictPngDimensionsAsync(icon48MetadataPromise, 48, 48, fileTestHelper.icon48FileName, icon48FilePath));
+  vitest.it.concurrent('Icon 128. Icon has strict dimensions', async () => await fileTestHelper.testHasStrictPngDimensionsAsync(icon128MetadataPromise, 128, 128, fileTestHelper.icon128FileName, icon128FilePath));
 }

@@ -87,6 +87,20 @@ export interface FileTestHelper {
   testIsPngAsync(metadataPromise: Promise<Buffer<ArrayBuffer> | null>, fileName: string, filePath: string): Promise<void>;
 
   /**
+   * Asserts that a deferred file metadata snapshot matches the standard WebP binary magic number signature.
+   *
+   * This asynchronous test utility evaluates the structural container format of a file asset. It awaits the resolution of the metadata buffer promise, extracts the initial 12-byte sequence (excluding the variable file size chunk),
+   * and utilizes Vitest to strictly match its hexadecimal string representation against the official WebP/RIFF magic byte benchmark.
+   *
+   * @param metadataPromise - A promise representing the pending 24-byte file metadata extraction pass.
+   * @param fileName - The human-readable file identifier name used to populate descriptive error outputs on failure.
+   * @param filePath - The system absolute or relative disk location pointer under evaluation.
+   *
+   * @returns A promise that resolves once the Vitest signature validation assertion is complete.
+   */
+  testIsWebpAsync(metadataPromise: Promise<Buffer<ArrayBuffer> | null>, fileName: string, filePath: string): Promise<void>;
+
+  /**
    * Asserts that a deferred PNG file metadata buffer matches the exact expected pixel width and height dimensions.
    *
    * @param metadataPromise - A promise representing the pending 24-byte binary file header snapshot.
@@ -97,7 +111,23 @@ export interface FileTestHelper {
    *
    * @returns A promise that resolves once both structural dimension assertions are complete.
    */
-  testHasStrictDimensionsAsync(metadataPromise: Promise<Buffer<ArrayBuffer> | null>, width: number, height: number, fileName: string, filePath: string): Promise<void>;
+  testHasStrictPngDimensionsAsync(metadataPromise: Promise<Buffer<ArrayBuffer> | null>, width: number, height: number, fileName: string, filePath: string): Promise<void>;
+
+  /**
+   * Asserts that a deferred WebP file metadata buffer matches the exact expected pixel width and height dimensions.
+   *
+   * This asynchronous test utility evaluates the structural image headers of a WebP asset file. It awaits the metadata buffer resolution, identifies the WebP format subtype (VP8, VP8L, or VP8X)
+   * starting at byte 12, and extracts the dimensions using the appropriate byte offsets and Little-Endian byte-order parsing logic.
+   *
+   * @param metadataPromise - A promise representing the pending file header snapshot.
+   * @param width - The explicit expected pixel width criteria boundary.
+   * @param height - The explicit expected pixel height criteria boundary.
+   * @param fileName - The human-readable file identifier name used to populate descriptive error outputs on failure.
+   * @param filePath - The system absolute or relative disk location pointer under evaluation.
+   *
+   * @returns {Promise<void>} A promise that resolves once both structural dimension assertions are complete.
+   */
+  testHasStrictWebpDimensionsAsync(metadataPromise: Promise<Buffer<ArrayBuffer> | null>, width: number, height: number, fileName: string, filePath: string): Promise<void>;
 }
 
 declare const fileTestHelper: FileTestHelper;
