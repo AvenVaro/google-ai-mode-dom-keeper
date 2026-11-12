@@ -1,5 +1,5 @@
 import { type Mock } from 'vitest';
-import { CacheMetricsSnapshot } from '../../../google-ai-mode-dom-keeper/src/index.js';
+import { CacheMetricsSnapshot } from '../../../google-ai-mode-dom-keeper/src/js/index.js';
 
 /**
  * Tracks the state metadata required to mock and restore an object property descriptor.

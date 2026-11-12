@@ -27,7 +27,7 @@ createDistDirectories();
 
 await esbuild.build({
   absWorkingDir: buildJsDirectoryPath,
-  entryPoints: [ 'src/index.js' ],
+  entryPoints: [ 'src/js/index.js' ],
   bundle: true,
   outdir: distDirectoryPaths.js,
   minify: false,

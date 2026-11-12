@@ -1,7 +1,7 @@
 import { defineConfig } from 'vitest/config';
 
 const integrationVirtual = [
-  'tests/integration/google-ai-mode-dom-keeper/src/index.tests.js',
+  'tests/integration/google-ai-mode-dom-keeper/src/js/index.tests.js',
   'tests/integration/google-ai-mode-dom-keeper/dist/js/index.tests.js'
 ];
 

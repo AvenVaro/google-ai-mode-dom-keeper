@@ -2,15 +2,15 @@
 
 import * as vitest from 'vitest';
 import path from 'path';
-import integrationVirtualTestHelper from '../integration-virtual-test-helper.js';
-import fileTestHelper from '../../file-test-helper.js';
+import integrationVirtualTestHelper from '../../integration-virtual-test-helper.js';
+import fileTestHelper from '../../../file-test-helper.js';
 
 //================================
 // Typedefs
 //================================
 
 /**
- * @typedef {import('../../../../google-ai-mode-dom-keeper/src/index.d.ts').CacheMetricsSnapshot} CacheMetricsSnapshot
+ * @typedef {import('../../../../../google-ai-mode-dom-keeper/src/js/index.d.ts').CacheMetricsSnapshot} CacheMetricsSnapshot
  */
 
 //================================
@@ -21,7 +21,7 @@ vitest.describe('Google AI Mode DOM Keeper. src/index.js - Integration Testing',
 
 function describe() {
   const indexJsFileName = 'index.js';
-  const indexJsFilePath = path.resolve(fileTestHelper.rootDirectoryPath, 'google-ai-mode-dom-keeper/src', indexJsFileName);
+  const indexJsFilePath = path.resolve(fileTestHelper.rootDirectoryPath, 'google-ai-mode-dom-keeper/src/js', indexJsFileName);
   const metadataPromise = fileTestHelper.tryReadMetadataAsync(indexJsFilePath);
   const testContext = integrationVirtualTestHelper.createAndConfigureTestContext();
 
@@ -32,7 +32,7 @@ function describe() {
     aliveTurnsCount: testContext.numberOfAliveTurns
   };
 
-  vitest.beforeEach(async () => await import('../../../../google-ai-mode-dom-keeper/src/index.js'));
+  vitest.beforeEach(async () => await import('../../../../../google-ai-mode-dom-keeper/src/js/index.js'));
   vitest.afterEach(() => integrationVirtualTestHelper.afterEach(testContext));
   vitest.afterAll(() => vitest.vi.restoreAllMocks());
 

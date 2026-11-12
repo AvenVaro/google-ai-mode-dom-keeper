@@ -194,12 +194,8 @@ export default defineConfig(
   },
   {
     files: [
-      'google-ai-mode-dom-keeper/src/*.js',
-      'google-ai-mode-dom-keeper/src/*.mjs',
-      'google-ai-mode-dom-keeper/src/*.cjs',
-      'google-ai-mode-dom-keeper/src/*.ts',
-      'google-ai-mode-dom-keeper/src/*.mts',
-      'google-ai-mode-dom-keeper/src/*.cts'
+      'google-ai-mode-dom-keeper/src/js/index.js',
+      'google-ai-mode-dom-keeper/src/js/index.d.ts'
     ],
     languageOptions: {
       ecmaVersion: 'latest',

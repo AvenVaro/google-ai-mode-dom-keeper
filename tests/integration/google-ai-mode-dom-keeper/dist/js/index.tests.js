@@ -11,7 +11,7 @@ import fileTestHelper from '../../../file-test-helper.js';
 //================================
 
 /**
- * @typedef {import('../../../../../google-ai-mode-dom-keeper/src/index').CacheMetricsSnapshot} CacheMetricsSnapshot
+ * @typedef {import('../../../../../google-ai-mode-dom-keeper/src/js/index.d.ts').CacheMetricsSnapshot} CacheMetricsSnapshot
  */
 
 //================================

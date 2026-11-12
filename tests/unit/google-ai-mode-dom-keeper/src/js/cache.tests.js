@@ -1,16 +1,16 @@
 import * as vitest from 'vitest';
 import esmock from 'esmock';
 import { JSDOM } from 'jsdom';
-import cache from '../../../../google-ai-mode-dom-keeper/src/cache.js';
-import testHelper from '../../../test-helper.js';
+import cache from '../../../../../google-ai-mode-dom-keeper/src/js/cache.js';
+import testHelper from '../../../../test-helper.js';
 
 //================================
 // Typedefs
 //================================
 
 /**
- * @typedef {import('../../../../google-ai-mode-dom-keeper/src/cache.d.ts').Cache} Cache
- * @typedef {import('../../../../google-ai-mode-dom-keeper/src/cache.d.ts').StyleContextPair} StyleContextPair
+ * @typedef {import('../../../../../google-ai-mode-dom-keeper/src/js/cache.d.ts').Cache} Cache
+ * @typedef {import('../../../../../google-ai-mode-dom-keeper/src/js/cache.d.ts').StyleContextPair} StyleContextPair
  */
 
 //================================
@@ -475,7 +475,7 @@ function testStyleContextPair(actualStyleContextPair, expectedStyleContextPair) 
  * @throws {Error} Thrown if esmock fails to resolve, initialize, or load the mocked module target payload.
  */
 async function getMockedCacheAsync() {
-  const cache = await esmock('../../../../google-ai-mode-dom-keeper/src/cache.js');
+  const cache = await esmock('../../../../../google-ai-mode-dom-keeper/src/js/cache.js');
 
   if (cache) {
     return cache.default || cache;

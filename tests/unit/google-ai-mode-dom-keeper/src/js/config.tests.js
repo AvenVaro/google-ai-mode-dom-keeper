@@ -1,6 +1,6 @@
 import * as vitest from 'vitest';
-import config from '../../../../google-ai-mode-dom-keeper/src/config.js';
-import testHelper from '../../../test-helper.js';
+import config from '../../../../../google-ai-mode-dom-keeper/src/js/config.js';
+import testHelper from '../../../../test-helper.js';
 
 //================================
 // Tests

@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
 
 import * as vitest from 'vitest';
-import config from '../../../google-ai-mode-dom-keeper/src/config.js';
+import config from '../../../google-ai-mode-dom-keeper/src/js/config.js';
 import testHelper from '../../test-helper.js';
 
 //================================
@@ -13,7 +13,7 @@ import testHelper from '../../test-helper.js';
  * @typedef {import('./integration-virtual-test-helper.d.ts').PropertyMockDescriptor} PropertyMockDescriptor
  * @typedef {import('./integration-virtual-test-helper.d.ts').VirtualNode} VirtualNode
  * @typedef {import('./integration-virtual-test-helper.d.ts').TestContext} TestContext
- * @typedef {import('../../../google-ai-mode-dom-keeper/src/index.d.ts').CacheMetricsSnapshot} CacheMetricsSnapshot
+ * @typedef {import('../../../google-ai-mode-dom-keeper/src/js/index.d.ts').CacheMetricsSnapshot} CacheMetricsSnapshot
  */
 
 //================================

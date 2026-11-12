@@ -171,9 +171,6 @@ async function testFileIsEqualAsync(distFilePromise, filePath) {
   const distFile = await distFilePromise;
   const file = await fileTestHelper.tryReadFileAsync(filePath);
 
-  console.log(distFile);
-  console.log(file);
-
   vitest
     .expect(
       (distFile === null && file === null) || distFile.equals(file),
