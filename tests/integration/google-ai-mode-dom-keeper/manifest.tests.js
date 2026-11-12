@@ -15,75 +15,44 @@ import fileTestHelper from '../file-test-helper.js';
  */
 
 //================================
+// Constants
+//================================
+
+const manifestJsonFileName = 'manifest.json';
+const manifestJsonFilePath = path.resolve(fileTestHelper.rootDirectoryPath, 'google-ai-mode-dom-keeper', manifestJsonFileName);
+
+/** @type {Promise<Manifest | null>} */
+const manifestJsonPromise = fileTestHelper.tryReadJsonFileAsync(manifestJsonFilePath);
+
+//================================
 // Tests
 //================================
 
 vitest.describe.concurrent('Google AI Mode DOM Keeper. manifest.json - Integration Testing', describe);
 
 function describe() {
-  const manifestJsonFileName = 'manifest.json';
-  const manifestJsonFilePath = path.resolve(fileTestHelper.rootDirectoryPath, 'google-ai-mode-dom-keeper', manifestJsonFileName);
-
-  /** @type {Promise<Manifest | null>} */
-  const manifestJsonPromise = fileTestHelper.tryReadJsonFileAsync(manifestJsonFilePath);
-
   vitest.it.concurrent('manifest.json is exists', async () => await fileTestHelper.testIsExistsAsync(manifestJsonPromise, manifestJsonFileName, manifestJsonFilePath));
-  vitest.it.concurrent('manifest.json has valid schema', async () => await testManifestHasValidSchemaAsync(manifestJsonPromise, manifestJsonFileName, manifestJsonFilePath));
+  vitest.it.concurrent('manifest.json has valid schema', testManifestHasValidSchemaAsync);
 
-  vitest.it.concurrent(
-    'The "icons.16" property in manifest.json has a correct value.',
-    async () => await testManifestIconsHasValidPathAsync(manifestJsonPromise, manifestJsonFileName, manifestJsonFilePath, '16', fileTestHelper.icon16FileName)
-  );
-
-  vitest.it.concurrent(
-    'The "icons.32" property in manifest.json has a correct value.',
-    async () => await testManifestIconsHasValidPathAsync(manifestJsonPromise, manifestJsonFileName, manifestJsonFilePath, '32', fileTestHelper.icon32FileName)
-  );
-
-  vitest.it.concurrent(
-    'The "icons.48" property in manifest.json has a correct value.',
-    async () => await testManifestIconsHasValidPathAsync(manifestJsonPromise, manifestJsonFileName, manifestJsonFilePath, '48', fileTestHelper.icon48FileName)
-  );
-
-  vitest.it.concurrent(
-    'The "icons.128" property in manifest.json has a correct value.',
-    async () => await testManifestIconsHasValidPathAsync(manifestJsonPromise, manifestJsonFileName, manifestJsonFilePath, '128', fileTestHelper.icon128FileName)
-  );
-
-  vitest.it.concurrent('The "content_scripts" property in manifest.json has a correct values.', async () => await testContentScriptsHasValidValuesAsync(manifestJsonPromise, manifestJsonFileName, manifestJsonFilePath));
-
-  vitest.it.concurrent(
-    'The "name" property in manifest.json has a correct values.',
-    async () => await testPropertyHasValidValueAsync(
-      manifestJsonPromise,
-      manifestJsonFileName,
-      manifestJsonFilePath,
-      'name',
-      'Google AI Mode DOM Keeper'
-    )
-  );
+  vitest.it.concurrent('The "$schema" property in manifest.json has a correct values.', async () => await testPropertyHasValidValueAsync('$schema', './manifest-schema-v3.json'));
+  vitest.it.concurrent('The "name" property in manifest.json has a correct values.', async () => await testPropertyHasValidValueAsync('name', 'Google AI Mode DOM Keeper'));
 
   vitest.it.concurrent(
     'The "description" property in manifest.json has a correct values.',
     async () => await testPropertyHasValidValueAsync(
-      manifestJsonPromise,
-      manifestJsonFileName,
-      manifestJsonFilePath,
       'description',
       'Virtualizes chat messages in \'Google AI Mode\' to eliminate typing delays, scrolling stutzes and input lags in massive conversations.'
     )
   );
 
-  vitest.it.concurrent(
-    'The "$schema" property in manifest.json has a correct values.',
-    async () => await testPropertyHasValidValueAsync(
-      manifestJsonPromise,
-      manifestJsonFileName,
-      manifestJsonFilePath,
-      '$schema',
-      './manifest-schema-v3.json'
-    )
-  );
+  vitest.it.concurrent('The "icons.16" property in manifest.json has a correct value.', async () => await testManifestIconsHasValidPathAsync('16', fileTestHelper.icon16FileName));
+  vitest.it.concurrent('The "icons.32" property in manifest.json has a correct value.', async () => await testManifestIconsHasValidPathAsync('32', fileTestHelper.icon32FileName));
+  vitest.it.concurrent('The "icons.48" property in manifest.json has a correct value.', async () => await testManifestIconsHasValidPathAsync('48', fileTestHelper.icon48FileName));
+  vitest.it.concurrent('The "icons.128" property in manifest.json has a correct value.', async () => await testManifestIconsHasValidPathAsync('128', fileTestHelper.icon128FileName));
+
+  vitest.it.concurrent('The "content_scripts" property in manifest.json has a correct values.', testContentScriptsHasValidValuesAsync);
+
+  vitest.it.concurrent('The "permissions" property in manifest.json has a correct values.', testPermissionsHasValidValuesAsync);
 }
 
 //================================
@@ -100,13 +69,9 @@ function describe() {
  * instantiates an AJV validator, registers crucial fast string formats (e.g., match patterns and CSP blocks), and compiles the schema layout ruleset. Finally, it tests the live manifest payload against the compiled blueprint,
  * compiling a detailed descriptive failure message if schema compliance checks fall short.
  *
- * @param {Promise<Manifest | null>} manifestJsonPromise - A promise representing the pending file read pass of the target manifest configuration asset.
- * @param {string} manifestJsonFileName - The human-readable file identifier name for the manifest (e.g., "manifest.json").
- * @param {string} manifestJsonFilePath - The system absolute disk location pointer pointing to the manifest file under test.
- *
  * @returns {Promise<void>} A promise that resolves once the AJV schema compilation and Vitest validation assertions are complete.
  */
-async function testManifestHasValidSchemaAsync(manifestJsonPromise, manifestJsonFileName, manifestJsonFilePath) {
+async function testManifestHasValidSchemaAsync() {
   const manifest = await manifestJsonPromise;
 
   fileTestHelper.testIsExists(manifest, manifestJsonFileName, manifestJsonFilePath);
@@ -141,15 +106,12 @@ async function testManifestHasValidSchemaAsync(manifestJsonPromise, manifestJson
  * This integration test utility enforces structural filename alignment conventions within a WebExtension's configuration. It resolves the deferred manifest payload, triggers an explicit baseline presence check, and compiles a canonical
  * relative path string based on the given icon asset name. Finally, it uses Vitest to strictly validate that the nested property field matches this expected path signature exactly, outputting a descriptive error message on failure.
  *
- * @param {Promise<Manifest | null>} manifestJsonPromise - A promise representing the pending file read and parse pass of the manifest configuration asset.
- * @param {string} manifestJsonFileName - The human-readable file identifier name for the manifest (e.g., "manifest.json").
- * @param {string} manifestJsonFilePath - The absolute system disk path pointing directly to the manifest file under test.
  * @param {string} propertyName - The specific icon size property key to validate under the manifest icons dictionary (e.g., "16", "48").
  * @param {string} iconFileName - The raw expected filename of the targeted image asset on disk (e.g., "icon-16.png").
  *
  * @returns {Promise<void>} A promise that resolves once the path validation assertion is complete.
  */
-async function testManifestIconsHasValidPathAsync(manifestJsonPromise, manifestJsonFileName, manifestJsonFilePath, propertyName, iconFileName) {
+async function testManifestIconsHasValidPathAsync(propertyName, iconFileName) {
   const manifest = await manifestJsonPromise;
 
   fileTestHelper.testIsExists(manifest, manifestJsonFileName, manifestJsonFilePath);
@@ -168,18 +130,14 @@ async function testManifestIconsHasValidPathAsync(manifestJsonPromise, manifestJ
  * This integration test runner handles structural validation passes. It resolves the deferred manifest payload, asserts its baseline existence on disk, and strictly enforces that exactly one content script configuration
  * entry is declared within the `content_scripts` array bucket. It then cascades down to perform a deeper structural verification review on each declared content script record.
  *
- * @param {Promise<Manifest | null>} manifestJsonPromise - A promise representing the pending file read and parse pass of the manifest configuration asset.
- * @param {string} manifestJsonFileName - The human-readable file identifier name for the manifest (e.g., "manifest.json").
- * @param {string} manifestJsonFilePath - The absolute system disk path pointing directly to the manifest file under test.
- *
  * @returns {Promise<void>} A promise that resolves once the content scripts capacity and item validation assertions are complete.
  */
-async function testContentScriptsHasValidValuesAsync(manifestJsonPromise, manifestJsonFileName, manifestJsonFilePath) {
+async function testContentScriptsHasValidValuesAsync() {
   const manifest = await manifestJsonPromise;
 
   fileTestHelper.testIsExists(manifest, manifestJsonFileName, manifestJsonFilePath);
 
-  vitest.expect(manifest.content_scripts.length, createLengthErrorMessage('manifest.content_scripts', 1)).toBe(1);
+  vitest.expect(manifest.content_scripts, createLengthErrorMessage('manifest.content_scripts', 1)).toHaveLength(1);
 
   testContentScriptHasValidValues(manifest.content_scripts[0], 0);
 }
@@ -199,8 +157,8 @@ async function testContentScriptsHasValidValuesAsync(manifestJsonPromise, manife
  * @returns {void}
  */
 function testContentScriptHasValidValues(contentScript, index) {
-  vitest.expect(contentScript.matches.length, createLengthErrorMessage(`manifest.content_scripts[${index}].matches`, 1)).toBe(1);
-  vitest.expect(contentScript.js.length, createLengthErrorMessage(`manifest.content_scripts[${index}].js`, 1)).toBe(1);
+  vitest.expect(contentScript.matches, createLengthErrorMessage(`manifest.content_scripts[${index}].matches`, 1)).toHaveLength(1);
+  vitest.expect(contentScript.js, createLengthErrorMessage(`manifest.content_scripts[${index}].js`, 1)).toHaveLength(1);
 
   const matches0expectedValue = '*://www.google.com/search*';
   const js0expectedValue = 'js/index.js';
@@ -222,15 +180,12 @@ function testContentScriptHasValidValues(contentScript, index) {
  * an explicit baseline disk presence verification, and leverages Vitest to strictly validate that the top-level property key matches the targeted configuration benchmark exactly, utilizing a
  * formatted error message string on failure.
  *
- * @param {Promise<Manifest | null>} manifestJsonPromise - A promise representing the pending file read and parse pass of the manifest configuration asset.
- * @param {string} manifestJsonFileName - The human-readable file identifier name for the manifest (e.g., "manifest.json").
- * @param {string} manifestJsonFilePath - The absolute system disk path pointing directly to the manifest file under test.
  * @param {string} propertyName - The specific top-level property key to validate under the manifest object root (e.g., "manifest_version").
  * @param {string} expectedValue - The target value or structural primitive expected by the extension configuration specifications.
  *
  * @returns {Promise<void>} A promise that resolves once the top-level value validation assertion is complete.
  */
-async function testPropertyHasValidValueAsync(manifestJsonPromise, manifestJsonFileName, manifestJsonFilePath, propertyName, expectedValue) {
+async function testPropertyHasValidValueAsync(propertyName, expectedValue) {
   const manifest = await manifestJsonPromise;
 
   fileTestHelper.testIsExists(manifest, manifestJsonFileName, manifestJsonFilePath);
@@ -303,4 +258,25 @@ function createSchemaErrorMessage(errors) {
   errorMessageArray.push('');
 
   return errorMessageArray.join('\n');
+}
+
+/**
+ * @private
+ * @async
+ *
+ * Asynchronously asserts that the compiled extension manifest declares the exact expected browser permissions.
+ *
+ * This manifest configuration validator resolves the parsed `manifest.json` payload promise and verifies its existence on disk via `fileTestHelper.testIsExists`. It then uses Vitest's `.toStrictEqual()` matcher to
+ * confirm that the `permissions` array matches the baseline security requirement (`['storage']`) without any unauthorized or missing API privileges.
+ *
+ * @returns {Promise<void>} A promise that resolves once the manifest existence check and strict permissions assertions complete.
+ */
+async function testPermissionsHasValidValuesAsync() {
+  const manifest = await manifestJsonPromise;
+
+  fileTestHelper.testIsExists(manifest, manifestJsonFileName, manifestJsonFilePath);
+
+  const permissions = [ 'storage' ];
+
+  vitest.expect(manifest.permissions).toStrictEqual(permissions);
 }
