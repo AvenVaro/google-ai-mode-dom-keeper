@@ -20,3 +20,6 @@ Or view a copy of it: `third_party/flag-icons/LICENSE`
     - [https://github.com/lipis/flag-icons/blob/ac7e0eb/flags/4x3/gb.svg](https://github.com/lipis/flag-icons/blob/ac7e0eb/flags/4x3/gb.svg)  
       Copied without modifications.
       [https://github.com/AvenVaro/google-ai-mode-dom-keeper/blob/dev/assets/flags/gb.svg](https://github.com/AvenVaro/google-ai-mode-dom-keeper/blob/dev/assets/flags/gb.svg)  
+    - [https://github.com/lipis/flag-icons/blob/ac7e0eb/flags/4x3/ua.svg](https://github.com/lipis/flag-icons/blob/ac7e0eb/flags/4x3/ua.svg)  
+      Copied without modifications.
+      [https://github.com/AvenVaro/google-ai-mode-dom-keeper/blob/dev/assets/flags/ua.svg](https://github.com/AvenVaro/google-ai-mode-dom-keeper/blob/dev/assets/flags/ua.svg)  
